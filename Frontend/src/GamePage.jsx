@@ -2,7 +2,7 @@ const GamePage = () => {
   return (
     <div style={{ width: "100%", height: "100vh" }}>
       <iframe
-        src="https://pub-7f6e627580c7494f988dcdcb8f8d1af9.r2.dev/sample/index.html"
+        src="https://pub-2a084d30ce654c358a5f896e2b0052a3.r2.dev/web-game-export/index.html"
         width="100%"
         height="100%"
         style={{ border: "none" }}
