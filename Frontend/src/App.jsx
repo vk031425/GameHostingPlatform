@@ -1,8 +1,15 @@
-import GamePage from "./GamePage";
+import Navbar from "./components/Navbar/Navbar";
+import Home from "./pages/Home/Home";
+import {Route,Routes} from 'react-router-dom';
 
 const App = ()=>{
   return(
-    <GamePage/>
+    <>
+    <Navbar/>
+    <Routes>
+      <Route path="/" element= {<Home/>}/>
+    </Routes>
+    </>
   )
 }
 

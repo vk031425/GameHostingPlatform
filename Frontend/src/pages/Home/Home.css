@@ -1,0 +1,71 @@
+.home-container {
+    height: 100vh;
+    background-image: url("/images/home/background.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.home-top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5rem 10rem;
+    gap: 10rem;
+}
+
+.home-top-left {
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+}
+
+.home-top-left h1 {
+    color: white;
+    font-size: 5rem;
+}
+
+#webgame-highlight {
+    font-weight: bold;
+    color: rgb(27, 145, 255);
+}
+
+.home-top-left p {
+    color: white;
+    font-size: 2rem;
+}
+
+.home-top-left-buttons {
+    display: flex;
+    gap: 2rem;
+}
+
+.home-top-left-buttons button {
+    width: 17rem;
+    height: 4.2rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-radius: 0.4rem;
+}
+
+.laptop-wrapper {
+    position: relative;
+    max-width: 60rem;
+}
+
+.laptop-frame {
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.laptop-screen {
+  position: absolute;
+  top: 2%;
+  left: 10%;
+  width: 79%;
+  height:74%;
+  object-fit: cover;
+  border-radius: 6px;
+  z-index: 1;
+}
