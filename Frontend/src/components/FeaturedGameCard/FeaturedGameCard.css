@@ -1,0 +1,47 @@
+.feature-card {
+    background-color: #111630;
+    height: 270px;
+    width: 270px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-tag {
+    position: absolute;
+    z-index: 3;
+
+    background: #ef4444;
+    color: white;
+    padding: 6px 12px;
+    font-size: 0.5rem;
+    font-weight: 600;
+}
+
+.feature-card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.feature-card-content h2 {
+    font-weight: 100;
+    color: white;
+}
+
+.feature-card-content button {
+    width: 50%;
+    height: 30px;
+    background-color: #5C4BD8;
+    border: none;
+}
+
+.feature-card-button-link {
+    color: white;
+    font-size: 1rem;
+    text-decoration: none;
+}
