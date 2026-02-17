@@ -53,13 +53,13 @@ const Home = () => {
           />
         </div>
       </section>
-      <hr />
+      <hr className="gradient-hr"/>
       <section className="home-middle">
         <div className="home-middle-top">
           <h1>Featured Games</h1>
           <button>
             <Link className="viewall-button" to="/games">
-              View All
+              View All {">"}
             </Link>
           </button>
         </div>
@@ -67,29 +67,34 @@ const Home = () => {
           <FeaturedGameCard
             source="/images/home/FeaturedGames/lulf.jpg"
             title="Wonder Fighter"
+            gameId = "wonder123"
           />
           <FeaturedGameCard
             source="/images/home/FeaturedGames/game2.jpg"
             title="Tom Clancy | Ghost Recon"
+            gameId = "ghost543"
           />
           <FeaturedGameCard
             source="/images/home/FeaturedGames/tombraider.jpg"
             title="The Rise Of Tomb Raider"
+            gameId = "tombraid432"
           />
           <FeaturedGameCard
             source="/images/home/FeaturedGames/lulf.jpg"
             title="Wonder Fighter"
+            gameId = "wonder123"
           />
           <FeaturedGameCard
             source="/images/home/FeaturedGames/lulf.jpg"
             title="Wonder Fighter"
+            gameId = "wonder123"
           />
         </div>
         <div className="home-middle-bottom">
           <h1>Trending Games</h1>
           <button>
             <Link className="viewall-button" to="/games">
-              View All
+              View All {">"}
             </Link>
           </button>
         </div>
@@ -133,34 +138,6 @@ const Home = () => {
           </button>
         </div>
       </section>
-      <hr />
-      <footer className="home-footer-container">
-        <div className="home-footer">
-          <ul>
-            <li>
-              <Link className="home-footer-links" to="/about">
-                About
-              </Link>
-            </li>
-            <li>
-              <Link className="home-footer-links" to="/about">
-                Developers
-              </Link>
-            </li>
-            <li>
-              <Link className="home-footer-links" to="/about">
-                Terms
-              </Link>
-            </li>
-            <li>
-              <Link className="home-footer-links" to="/about">
-                Privacy
-              </Link>
-            </li>
-          </ul>
-          <p>© 2026 Game Hoster</p>
-        </div>
-      </footer>
     </div>
   );
 };

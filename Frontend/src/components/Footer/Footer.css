@@ -1,0 +1,35 @@
+.footer-container {
+    background-image: url("/images/home/background3.png");
+    background-position: bottom;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 30vh;
+}
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    padding: 3rem 5rem;
+}
+
+.footer ul {
+    display: flex;
+    justify-content: center;
+    gap: 5rem;
+    color: rgb(202, 202, 202);
+}
+
+.footer-links {
+    text-decoration: none;
+    font-size: 1.7rem;
+    color: white;
+}
+
+.footer p {
+    color: rgb(206, 206, 206);
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+}

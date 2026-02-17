@@ -1,0 +1,77 @@
+.signin-container {
+    width: 100%;
+    height: 95vh;
+    background-image: url("/images/home/background3.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signin-card {
+    min-width: 450px;
+    height: 80%;
+    width: 35%;
+    background-color: #221641;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 1rem;
+}
+
+.signin-card h1 {
+    color: white;
+    font-size: 2.5rem;
+}
+
+#signin-inputs{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.signin-inputbox-heading {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+}
+
+.signin-inputbox {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.signin-inputbox-heading i,
+p {
+    font-size: 1.5rem;
+    color: rgb(200, 200, 200);
+}
+
+.signin-inputbox input {
+    width: 100%;
+    height: 38px;
+    font-size: 1.35rem;
+    padding: 0px 3%;
+    background-color: #1c1437;
+    border: 2px solid #433279;
+    color: white;
+}
+
+.signin-button{
+    width: 90%;
+    height: 38px;
+    border-radius: 5px;
+    font-size: 1.6rem;
+    background-color:  #2747DA;
+    color: white;
+    border: 1px solid #a297c5;
+}

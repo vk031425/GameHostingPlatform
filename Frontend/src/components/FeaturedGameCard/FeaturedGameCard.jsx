@@ -1,7 +1,22 @@
 import "./FeaturedGameCard.css";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import API from "../../config/api";
+import { useEffect } from "react";
 
 const FeaturedGameCard = (props) => {
+  const [data,setData] = useState([]);
+
+  // const getData = async() =>{
+  //   const response = await API.get("/games/tombraider213");
+  //   console.log(response);
+  //   setData(response.data);
+  // }
+
+  // useEffect(()=>{
+  //   getData();
+  // },[])
+
   return (
     <div className="feature-card">
       {props.cardtag && (
@@ -13,7 +28,10 @@ const FeaturedGameCard = (props) => {
       <div className="feature-card-content">
         <h2>{props.title}</h2>
         <button>
-          <Link className="feature-card-button-link" to={props.gamepage}>
+          <Link
+            className="feature-card-button-link"
+            to={`/game/${data.gameurl}`}
+          >
             Play Now
           </Link>
         </button>

@@ -1,0 +1,84 @@
+.developer-profile-page-container {
+    width: 100%;
+    height: 100vh;
+    background-image: url("/images/home/background4.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+}
+
+.developer-profile-page-sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.developer-profile-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 20px;
+}
+
+.developer-profile-main img {
+    border-radius: 50%;
+    height: 120px;
+    width: 120px;
+}
+
+.developer-profile-main h1 {
+    color: white;
+    font-size: 2rem;
+}
+
+.developer-profile-page-right {
+    background-color: white;
+    height: 100vh;
+    width: 100%;
+}
+
+.developer-profile-switch-btn {
+    background: none;
+    width: 100%;
+    height: 50px;
+    border: 1px solid #1c1437;
+}
+
+.profile-page-link{
+    font-size: 1.4rem;
+    color: rgb(193, 193, 193);
+    text-decoration: none;
+}
+
+.developer-profile-sidebar-btn-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.developer-profile-sidebar-btn {
+    background: none;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    border: 1px solid #1c1437;
+}
+
+.developer-profile-sidebar-btn:hover {
+    background-color: #5C4BD8;
+}
+
+.developer-profile-sidebar-btn i {
+    color: rgb(229, 229, 229);
+    font-size: 1.8rem;
+}
+
+.developer-profile-sidebar-btn p {
+    font-size: 1.8rem;
+}
