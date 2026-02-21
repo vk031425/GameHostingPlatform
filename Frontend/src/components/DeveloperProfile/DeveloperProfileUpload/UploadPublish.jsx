@@ -1,10 +1,16 @@
 import { useState } from "react";
 import "./UploadPublish.css";
 
-const UploadPublish = ({ data, prevStep, goToStep }) => {
+const UploadPublish = ({
+  data,
+  prevStep,
+  goToStep,
+  onPublish,
+  isPublishing,
+  uploadProgress,
+}) => {
   const [agreeRights, setAgreeRights] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
-  const [isPublishing, setIsPublishing] = useState(false);
 
   const price = Number(data.price || 0);
   const commission = Math.floor(price * (data.commission || 0));
@@ -29,19 +35,7 @@ const UploadPublish = ({ data, prevStep, goToStep }) => {
 
   const handlePublish = () => {
     if (!canPublish) return;
-
-    setIsPublishing(true);
-
-    setTimeout(() => {
-      console.log({
-        ...data,
-        status: "live",
-        publishedAt: new Date(),
-      });
-
-      setIsPublishing(false);
-      alert("Game Published Successfully!");
-    }, 1500);
+    onPublish();
   };
 
   return (
@@ -96,7 +90,9 @@ const UploadPublish = ({ data, prevStep, goToStep }) => {
                   className="uploadgame-publish-media-thumb"
                 />
               ) : (
-                <span className="uploadgame-publish-media-empty-text">No thumbnail uploaded</span>
+                <span className="uploadgame-publish-media-empty-text">
+                  No thumbnail uploaded
+                </span>
               )}
             </div>
           </div>
@@ -115,7 +111,9 @@ const UploadPublish = ({ data, prevStep, goToStep }) => {
                   ))}
                 </div>
               ) : (
-                <span className="uploadgame-publish-media-empty-text">No screenshots added</span>
+                <span className="uploadgame-publish-media-empty-text">
+                  No screenshots added
+                </span>
               )}
             </div>
           </div>
@@ -134,7 +132,9 @@ const UploadPublish = ({ data, prevStep, goToStep }) => {
                   allowFullScreen
                 />
               ) : (
-                <span className="uploadgame-publish-media-empty-text">No trailer added</span>
+                <span className="uploadgame-publish-media-empty-text">
+                  No trailer added
+                </span>
               )}
             </div>
           </div>
@@ -227,6 +227,19 @@ const UploadPublish = ({ data, prevStep, goToStep }) => {
       </div>
 
       {/* ================= FOOTER ================= */}
+      {uploadProgress > 0 && uploadProgress < 100 && (
+        <div style={{ marginBottom: "15px" }}>
+          <p>Uploading: {uploadProgress}%</p>
+          <div
+            style={{
+              height: "6px",
+              width: `${uploadProgress}%`,
+              background: "green",
+              borderRadius: "4px",
+            }}
+          />
+        </div>
+      )}
       <hr className="uploadgame-form-hr" />
 
       <div className="uploadgame-form-footer">

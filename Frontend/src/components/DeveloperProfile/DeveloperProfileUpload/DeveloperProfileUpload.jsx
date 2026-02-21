@@ -1,16 +1,20 @@
 import "./DeveloperProfileUpload.css";
 import { useState } from "react";
+import axios from "axios";
 
 import UploadBasicInfo from "./UploadBasicInfo";
 import UploadMedia from "./UploadMedia";
 import UploadGameType from "./UploadGameType";
 import UploadPricing from "./UploadPricing";
 import UploadPublish from "./UploadPublish";
+import API from "../../../config/api";
 
 const DeveloperProfileUpload = () => {
   const [step, setStep] = useState(1);
+  const [isPublishing, setIsPublishing] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
-  // 🔥 Track highest completed step
+  // Track highest completed step
   const [maxCompletedStep, setMaxCompletedStep] = useState(1);
 
   const [gameData, setGameData] = useState({
@@ -26,20 +30,13 @@ const DeveloperProfileUpload = () => {
     supportedOS: [],
     systemRequirements: "",
     version: "",
-    isPaid: null,
+    isPremium: null,
     price: "",
-    commission: 0.1,
   });
 
-  const steps = [
-    "Basic Info",
-    "Media",
-    "Game Type",
-    "Pricing",
-    "Publish",
-  ];
+  const steps = ["Basic Info", "Media", "Game Type", "Pricing", "Publish"];
 
-  // 🔥 Move forward
+  // Move forward
   const nextStep = () => {
     setStep((prev) => {
       const next = prev + 1;
@@ -65,9 +62,70 @@ const DeveloperProfileUpload = () => {
     }
   };
 
+  const handlePublish = async () => {
+    try {
+      setIsPublishing(true);
+
+      //  Create game
+      const createRes = await API.post("/game-upload/create", {
+        title: gameData.gameTitle,
+        description: gameData.description,
+        shortDescription: gameData.shortDescription,
+        categories: gameData.categories,
+        thumbnailUrl: gameData.thumbnail, // later you upload this too
+        screenshots: [], // handle later
+        trailerUrl: gameData.trailerUrl,
+        distributionType: gameData.distributionType,
+        supportedOS: gameData.supportedOS,
+        systemRequirements: gameData.systemRequirements,
+        isPremium: gameData.isPremium,
+        price: gameData.price,
+      });
+
+      const gameId = createRes.data.gameId;
+
+      // Get upload URL
+      const uploadRes = await API.post("/game-upload/get-upload-url", {
+        gameId,
+        version: gameData.version,
+        fileType: gameData.buildFile.type,
+      });
+
+      const { uploadUrl, fileKey } = uploadRes.data;
+
+      // Upload build directly to R2
+      await axios.put(uploadUrl, gameData.buildFile, {
+        headers: {
+          "Content-Type": gameData.buildFile.type,
+        },
+        withCredentials: false, // force disable cookies
+        onUploadProgress: (progressEvent) => {
+          const percent = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total,
+          );
+          setUploadProgress(percent);
+        },
+      });
+
+      //  Confirm upload
+      await API.post("/game-upload/confirm-upload", {
+        gameId,
+        fileKey,
+        version: gameData.version,
+      });
+
+      alert("Game Published Successfully!");
+      window.location.reload();
+    } catch (err) {
+      console.error(err);
+      alert("Publishing failed");
+    } finally {
+      setIsPublishing(false);
+    }
+  };
+
   return (
     <div className="developer-profile-upload-container">
-      
       {/* ================= HEADER ================= */}
       <div className="developer-profile-upload-top">
         <div className="developer-profile-upload-top-left">
@@ -160,7 +218,10 @@ const DeveloperProfileUpload = () => {
         <UploadPublish
           data={gameData}
           prevStep={prevStep}
-          goToStep={setStep}   
+          goToStep={setStep}
+          onPublish={handlePublish}
+          isPublishing={isPublishing}
+          uploadProgress={uploadProgress}
         />
       )}
     </div>

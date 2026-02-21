@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const GameSchema = new Schema(
   {
-    // Basic Info
+    // Basic Information
     title: {
       type: String,
       required: true,
@@ -26,14 +26,17 @@ const GameSchema = new Schema(
       maxlength: 200,
     },
 
+    categories: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
+
     // Media
     thumbnailUrl: {
       type: String,
-      required: true,
-    },
-
-    coverImageUrl: {
-      type: String,
+      // required: true,
     },
 
     screenshots: [
@@ -42,28 +45,9 @@ const GameSchema = new Schema(
       },
     ],
 
-    // Game Files (Cloudflare R2)
-    gameUrl: {
+    trailerUrl: {
       type: String,
-      required: true,
     },
-
-    buildVersion: {
-      type: String,
-      default: "1.0.0",
-    },
-
-    // Category & Tags
-    category: {
-      type: String,
-      enum: ["Action", "Puzzle", "Racing", "Arcade", "Multiplayer", "Other"],
-    },
-
-    tags: [
-      {
-        type: String,
-      },
-    ],
 
     // Developer
     developer: {
@@ -72,30 +56,42 @@ const GameSchema = new Schema(
       required: true,
     },
 
-    // Stats
-    views: {
-      type: Number,
-      default: 0,
+    // Distribution
+    distributionType: {
+      type: String,
+      enum: ["browser", "download"],
+      required: true,
     },
 
-    plays: {
-      type: Number,
-      default: 0,
+    build: {
+      fileKey: {
+        type: String,
+      },
+
+      fileSize: {
+        type: Number, // in bytes
+      },
+
+      version: {
+        type: String,
+      },
+
+      uploadedAt: {
+        type: Date,
+        default: Date.now,
+      },
     },
 
-    likes: {
-      type: Number,
-      default: 0,
-    },
+    // Only for downloadable games
+    supportedOS: [
+      {
+        type: String,
+        enum: ["Windows", "Mac", "Linux"],
+      },
+    ],
 
-    rating: {
-      type: Number,
-      default: 0,
-    },
-
-    totalRatings: {
-      type: Number,
-      default: 0,
+    systemRequirements: {
+      type: String,
     },
 
     // Monetization
@@ -109,7 +105,19 @@ const GameSchema = new Schema(
       default: 0,
     },
 
+    // Statistics
+    views: { type: Number, default: 0 },
+
+    plays: { type: Number, default: 0 },
+
+    likes: { type: Number, default: 0 },
+
+    rating: { type: Number, default: 0 },
+
+    totalRatings: [{ type: Number, default: 0 }],
+
     // Moderation
+
     status: {
       type: String,
       enum: ["pending", "approved", "rejected"],
@@ -121,7 +129,9 @@ const GameSchema = new Schema(
       default: false,
     },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+  },
 );
 
 module.exports = mongoose.model("Game", GameSchema);

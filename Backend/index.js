@@ -12,6 +12,7 @@ const mongoose = require("mongoose");
 //for routes
 const userRoutes = require("./routes/userRoutes");
 const gameRoutes = require("./routes/gameRoutes");
+const gameUploadRoutes = require("./routes/gameUploadRoutes");
 
 mongoose.connect(process.env.MONGO_URL);
 
@@ -33,8 +34,10 @@ app.use(
   express.static(path.join(__dirname, "uploads/profile_pics")),
 ); //server static profile pics
 
-app.use("/api", userRoutes()); // All routes will be under /api/...
+app.use("/api", userRoutes()); 
 app.use("/api", gameRoutes());
+app.use("/api", gameUploadRoutes());
+app.use("/api", require("./routes/testUpload"));
 
 const PORT = process.env.PORT || 8080;
 server.listen(PORT, "0.0.0.0", function () {
