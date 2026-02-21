@@ -1,0 +1,233 @@
+.developer-profile-media-upload-form {
+    width: 100%;
+    min-width: 450px;
+    background-color: #221641;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 30px 35px;
+    margin: 0 auto;
+}
+
+.uploadgame-media-form-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.uploadgame-media-form-header h1 {
+    color: white;
+    font-size: 2.5rem;
+}
+
+/* Thumbnail */
+
+.uploadgame-media-thumbnailcard {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.03);
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.uploadgame-media-thumbnailcard-top {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.uploadgame-media-thumbnailcard-top h3 {
+    color: white;
+    font-size: 1.5rem;
+}
+
+.uploadgame-media-thumbnail-dropzone {
+    border: 2px dashed rgba(143, 92, 255, 0.5);
+    border-radius: 12px;
+
+    width: 50%;
+    aspect-ratio: 16 / 9;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s ease;
+    text-align: center;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.uploadgame-media-thumbnail-dropzone:hover {
+    background: rgba(143, 92, 255, 0.08);
+}
+
+.uploadgame-media-thumbnail-dropzone img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.media-block {
+    margin-bottom: 40px;
+}
+
+.media-block h3 span {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 1.2rem;
+}
+
+.media-helper {
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 15px;
+}
+
+
+.uploadgame-media-thumbnail-dropzone-placeholder {
+    color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.uploadgame-media-thumbnail-dropzone-placeholder i {
+    columns: white;
+    font-size: 2rem;
+}
+
+/* Screenshots */
+
+.uploadgame-media-screenshotscard {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.03);
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.uploadgame-media-screenshotscard-top {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.uploadgame-media-screenshotscard-top h3 {
+    color: white;
+    font-size: 1.5rem;
+}
+
+.uploadgame-media-screenshots-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.uploadgame-media-screenshot-item {
+    position: relative;
+    aspect-ratio: 16 / 9;
+}
+
+.uploadgame-media-screenshot-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.uploadgame-media-screenshot-add {
+    border: 2px dashed rgba(143, 92, 255, 0.5);
+    border-radius: 8px;
+    aspect-ratio: 16 / 9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s ease;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.uploadgame-media-screenshot-add:hover {
+    background: rgba(143, 92, 255, 0.08);
+}
+
+.uploadgame-media-screenshot-remove-btn {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background: #ff4d6d;
+    border: none;
+    color: white;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+}
+
+/* Trailer */
+
+.uploadgame-media-videocard{
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.03);
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.uploadgame-media-videocard-top {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.uploadgame-media-videocard-top h3 {
+    color: white;
+    font-size: 1.5rem;
+}
+
+.uploadgame-media-videocard-input{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #1c1437;
+    border: 2px solid #433279;
+    padding: 8px 12px;
+    border-radius: 8px;
+}
+
+.uploadgame-media-videocard-input i {
+    color: white;
+    font-size: 2rem;
+}
+
+.uploadgame-media-videocard-input input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    width: 100%;
+    font-size: 1.2rem;
+}
+
+.uploadgame-media-video-preview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.uploadgame-media-video-preview iframe {
+    width: 50%;
+    aspect-ratio: 16/9;
+    border-radius: 8px;
+    border: none;
+}

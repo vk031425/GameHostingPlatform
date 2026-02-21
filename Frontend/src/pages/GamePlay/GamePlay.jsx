@@ -44,7 +44,13 @@ const GamePlay = () => {
     setgameData(response);
   };
 
-  const purchased = authData.purchasedGames.includes(gamedata.gameName);
+  let purchased = false;
+  if(authData.isLoggedIn === true){
+    purchased = authData.user.purchasedGames.includes(gamedata.gameName);
+  }
+  else{
+    purchased = false;
+  }
 
   const getTopRightCard = () => {
     if (gamedata.subscription === "Paid" && !purchased) {

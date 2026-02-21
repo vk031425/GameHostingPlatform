@@ -1,0 +1,187 @@
+.uploadgame-publish-container {
+    width: 100%;
+    min-width: 450px;
+    background-color: #221641;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 30px 35px;
+    margin: 0 auto;
+}
+
+.uploadgame-publish-container-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.uploadgame-publish-container-header h1 {
+    color: white;
+    font-size: 2.5rem;
+}
+
+/* ================= SECTIONS ================= */
+
+.uploadgame-publish-review-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.uploadgame-publish-review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.uploadgame-publish-review-header h3 {
+    color: white;
+    font-size: 1.5rem;
+}
+
+.uploadgame-publish-review-header button {
+    background: rgba(255, 255, 255, 0.08);
+    border: none;
+    padding: 6px 14px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    width: 80px;
+    height: 30px;
+}
+
+.uploadgame-publish-review-header button:hover{
+   background: rgba(143, 92, 255, 0.08);
+}
+
+/* ================= REVIEW CARD ================= */
+
+.uploadgame-publish-review-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.uploadgame-publish-review-card p {
+    font-size: 1.5rem;
+}
+
+.uploadgame-publish-review-card strong {
+    color: rgb(238, 238, 238);
+    margin-right: 10px;
+}
+
+/* ================= MEDIA REVIEW ================= */
+
+.uploadgame-publish-media-review-card {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.uploadgame-publish-media-review-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-items: flex-start;
+    gap: 40px;
+    padding: 20px 20px;
+}
+
+.uploadgame-publish-media-review-label {
+    flex: 1;
+    color: white;
+    font-size: 1.4rem;
+}
+
+.uploadgame-publish-media-review-value {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    color: white;
+}
+
+.uploadgame-publish-media-empty-text {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.3rem;
+}
+
+/* Thumbnail */
+.uploadgame-publish-media-thumb {
+    width: 30%;
+    aspect-ratio: 16/9;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+/* Screenshots */
+.uploadgame-publish-media-screenshot-grid {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.uploadgame-publish-media-screenshot-grid img {
+    width: 15%;
+    border-radius: 6px;
+    object-fit: contain;
+}
+
+/* Trailer */
+.uploadgame-publish-media-review-value iframe {
+    width: 50%;
+    max-width: 500px;
+    aspect-ratio: 16/9;
+    border-radius: 10px;
+    border: none;
+}
+
+/* ================= PRICING HIGHLIGHT ================= */
+
+.highlight {
+    font-weight: bold;
+    color: #6f3cff;
+}
+
+/* ================= CONFIRMATION ================= */
+
+.uploadgame-publish-confirmation-area {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.uploadgame-publish-confirmationlabel {
+    color: white;
+    font-size: 1.5rem;
+    display: flex;
+    gap: 10px;
+}
+
+/* ================= PUBLISH BUTTON ================= */
+
+.publish-btn {
+    padding: 10px 26px;
+    border-radius: 8px;
+    border: none;
+    background: linear-gradient(90deg, #6f3cff, #8f5cff);
+    color: white;
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.publish-btn:hover:not(:disabled) {
+    background: linear-gradient(90deg, #8f5cff, #a56cff);
+}
+
+.publish-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

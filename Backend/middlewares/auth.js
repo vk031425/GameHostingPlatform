@@ -1,18 +1,19 @@
-const verifyuser = async (req, res, next) => {
-  // const idToken = req.headers.authorization?.split("Bearer ")[1];
+const jwt = require("jsonwebtoken");
 
-  // if (!idToken) {
-  //   return res.status(401).json({ error: "Unauthorized - No token provided" });
-  // }
+const verifyuser = (req, res, next) => {
+  const token = req.cookies.token;
 
-  // try {
-  //   const decodedToken = await admin.auth().verifyIdToken(idToken);
-  //   req.user = decodedToken;
-  //   next(); // proceed to the route
-  // } catch (err) {
-  //   console.error("Invalid Firebase ID token:", err);
-  //   return res.status(403).json({ error: "Forbidden - Invalid token" });
-  // }
+  if (!token) {
+    return res.status(401).json({ error: "Unauthorized - No token provided" });
+  }
+
+  if (token === "") {
+    return res.status(401).json({ error: "Unauthorized - Empty token" });
+  } else {
+    let data = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = data;
+    next();
+  }
 };
 
 module.exports = verifyuser;

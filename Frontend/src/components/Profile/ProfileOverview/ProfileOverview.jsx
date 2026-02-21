@@ -4,7 +4,7 @@ import { useContext } from "react";
 import GameCard from "../../GameCard/GameCard";
 
 const ProfileOverview = () => {
-  const { authData } = useContext(AuthContext);
+  const { authData} = useContext(AuthContext);
 
   return (
     <div className="profile-overview-container">
@@ -12,28 +12,28 @@ const ProfileOverview = () => {
         <div className="profile-overview-top-element">
           <div className="profile-overview-top-element-top">
             <i class="fa-solid fa-gamepad"></i>
-            <h1>{authData.gamesPlayed}</h1>
+            <h1>{authData.user.gamesPlayed}</h1>
           </div>
           <h1>Games Played</h1>
         </div>
         <div className="profile-overview-top-element">
           <div className="profile-overview-top-element-top">
             <i class="fa-solid fa-cart-shopping"></i>
-            <h1>{authData.purchasedGames.length}</h1>
+            <h1>{authData.user.purchasedGames.length}</h1>
           </div>
           <h1>Games Purchased</h1>
         </div>
         <div className="profile-overview-top-element">
           <div className="profile-overview-top-element-top">
             <i class="fa-solid fa-star"></i>
-            <h1>{authData.reviewsPosted}</h1>
+            <h1>{authData.user.reviewsPosted}</h1>
           </div>
           <h1>Reviews Posted</h1>
         </div>
         <div className="profile-overview-top-element">
           <div className="profile-overview-top-element-top">
             <i class="fa-solid fa-calendar"></i>
-            <h1 style={{ fontSize: "2rem" }}>{authData.createdAt}</h1>
+            <h1 style={{ fontSize: "2rem" }}>{authData.user.createdAt}</h1>
           </div>
           <h1>Joined In</h1>
         </div>

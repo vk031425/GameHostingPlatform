@@ -1,0 +1,122 @@
+/* ================= CONTAINER ================= */
+
+.developer-profile-upload-container {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    padding: 30px;
+}
+
+/* ================= HEADER ================= */
+
+.developer-profile-upload-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.developer-profile-upload-top-left {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.developer-profile-upload-top-left h1 {
+    color: white;
+    font-size: 4rem;
+}
+
+.developer-profile-upload-top-left p {
+    color: rgba(255,255,255,0.7);
+}
+
+.save-draft-btn {
+    background-color: #1c1437;
+    color: white;
+    width: 140px;
+    height: 50px;
+    font-size: 1.3rem;
+    border: 1px solid white;
+    border-radius: 6px;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* ================= STEP INDICATOR ================= */
+
+.developer-profile-upload-steps-overview {
+    display: flex;
+    align-items: center;
+    margin: 50px 0px 50px 10%;
+}
+
+/* Step Wrapper */
+.step-wrapper {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+/* Step Button */
+.developer-profile-upload-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Step Circle */
+.step-circle {
+    height: 34px;
+    width: 34px;
+    border-radius: 50%;
+    border: 2px solid white;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.4rem;
+    transition: 0.3s ease;
+}
+
+/* Active Step */
+.step-circle.active {
+    background: #6f3cff;
+    border-color: #6f3cff;
+}
+
+/* Completed Step */
+.step-circle.completed {
+    background: #4caf50;
+    border-color: #4caf50;
+}
+
+/* Step Label */
+.step-label {
+    font-size: 1.6rem;
+    color: white;
+    transition: 0.3s ease;
+}
+
+.active-label {
+    color: #6f3cff;
+}
+
+/* Step Line */
+.step-line {
+    flex: 1;
+    height: 2px;
+    background: white;
+    margin: 0 10px;
+    transition: 0.3s ease;
+}
+
+/* Completed Line */
+.line-completed {
+    background: #4caf50;
+}

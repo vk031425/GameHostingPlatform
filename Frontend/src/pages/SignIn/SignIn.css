@@ -23,12 +23,21 @@
     padding: 2rem 1rem;
 }
 
+.signin-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    margin: 25px 0;
+}
+
 .signin-card h1 {
     color: white;
     font-size: 2.5rem;
 }
 
-#signin-inputs{
+#signin-inputs {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -66,12 +75,17 @@ p {
     color: white;
 }
 
-.signin-button{
+.signin-error-text{
+    color: rgb(246, 73, 73);
+    font-size: 1.6rem;
+}
+
+.signin-button {
     width: 90%;
     height: 38px;
     border-radius: 5px;
     font-size: 1.6rem;
-    background-color:  #2747DA;
+    background-color: #2747DA;
     color: white;
     border: 1px solid #a297c5;
 }

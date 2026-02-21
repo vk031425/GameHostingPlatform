@@ -12,7 +12,6 @@
 
 .signup-card {
     min-width: 450px;
-    height: 80%;
     width: 35%;
     background-color: #221641;
     border-radius: 15px;
@@ -21,6 +20,15 @@
     justify-content: space-between;
     align-items: center;
     padding: 2rem 1rem;
+}
+
+.signup-form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    margin: 25px 0;
 }
 
 .signup-card h1 {
@@ -64,6 +72,12 @@ p {
     background-color: #1c1437;
     border: 2px solid #433279;
     color: white;
+}
+
+
+.signup-error-text{
+    color: rgb(246, 73, 73);
+    font-size: 1.6rem;
 }
 
 .signup-button{

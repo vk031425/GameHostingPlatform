@@ -1,0 +1,166 @@
+.developer-profile-pricing-upload-form {
+    width: 100%;
+    min-width: 450px;
+    background-color: #221641;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding: 30px 35px;
+    margin: 0 auto;
+}
+
+.uploadgame-pricing-form-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.uploadgame-pricing-form-header h1 {
+    color: white;
+    font-size: 2.5rem;
+}
+
+/* Cards */
+
+.uploadgame-pricing-cards {
+  display: flex;
+  gap: 20px;
+}
+
+.uploadgame-pricing-card {
+  flex: 1;
+  padding: 25px;
+  border-radius: 12px;
+  border: 2px solid #433279;
+  background: #1c1437;
+  cursor: pointer;
+  position: relative;
+  transition: 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.uploadgame-pricing-card h3{
+    color: rgb(214, 214, 214);
+    font-size: 2rem;
+}
+
+.uploadgame-pricing-card.active {
+  border-color: #6f3cff;
+  background: rgba(111, 60, 255, 0.1);
+}
+
+.uploadgame-pricing-card-check {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 14px;
+  color: white;
+}
+
+.uploadgame-badge {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.uploadgame-growth {
+  background: rgba(0,255,150,0.15);
+  color: #00ff99;
+}
+
+.uploadgame-revenue {
+  background: rgba(255,200,0,0.15);
+  color: #ffc400;
+}
+
+/* Paid Section */
+
+.uploadgame-price-input{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.uploadgame-price-input label{
+    color: rgb(233, 233, 233);
+    font-size: 1.4rem;
+}
+
+
+.uploadgame-price-field {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #1c1437;
+  border: 2px solid #433279;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.uploadgame-price-field span{
+    color: white;
+    font-size: 1.5rem;
+}
+
+.uploadgame-price-field input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 16px;
+  width: 100%;
+}
+
+/* Revenue Box */
+
+.uploadgame-pricing-revenue-box {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 0px;
+  background: rgba(255,255,255,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.uploadgame-pricing-revenue-detail{
+    color: rgb(226, 226, 226);
+    font-size: 1.5rem;
+    display: flex;
+    gap: 10px;
+}
+
+.uploadgame-pricing-earn-highlight {
+  font-weight: bold;
+  color: #3c83ff;
+  display: flex;
+  gap: 10px;
+  font-size: 1.5rem
+}
+
+/* Info */
+
+.uploadgame-pricing-info-box {
+  padding: 15px;
+  border-radius: 8px;
+  background: rgba(0,255,150,0.1);
+  color: #00ff99;
+}
+
+.uploadgame-pricing-access-notice {
+  margin-top: 15px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+}
+
+.uploadgame-pricing-error-text {
+  color: #ff4d6d;
+  font-size: 14px;
+}

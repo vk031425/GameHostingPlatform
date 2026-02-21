@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const http = require("http");
 require("dotenv").config();
+const cookieParser = require("cookie-parser");
 
 const path = require("path");
 
@@ -19,16 +20,21 @@ const app = express();
 const server = http.createServer(app);
 
 // Middlewares
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // frontend origin EXACT
+    credentials: true, // allow cookies
+  }),
+);
 app.use(express.json());
+app.use(cookieParser());
 app.use(
   "/uploads/profile_pics",
-  express.static(path.join(__dirname, "uploads/profile_pics"))
+  express.static(path.join(__dirname, "uploads/profile_pics")),
 ); //server static profile pics
 
 app.use("/api", userRoutes()); // All routes will be under /api/...
 app.use("/api", gameRoutes());
-
 
 const PORT = process.env.PORT || 8080;
 server.listen(PORT, "0.0.0.0", function () {
