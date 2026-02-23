@@ -8,6 +8,7 @@ const UploadPublish = ({
   onPublish,
   isPublishing,
   uploadProgress,
+  publishStage,
 }) => {
   const [agreeRights, setAgreeRights] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
@@ -227,17 +228,43 @@ const UploadPublish = ({
       </div>
 
       {/* ================= FOOTER ================= */}
-      {uploadProgress > 0 && uploadProgress < 100 && (
-        <div style={{ marginBottom: "15px" }}>
-          <p>Uploading: {uploadProgress}%</p>
-          <div
-            style={{
-              height: "6px",
-              width: `${uploadProgress}%`,
-              background: "green",
-              borderRadius: "4px",
-            }}
-          />
+      {isPublishing && (
+        <div
+          style={{
+            marginBottom: "20px",
+            padding: "15px",
+            background: "#111",
+            borderRadius: "10px",
+            border: "1px solid #333",
+          }}
+        >
+          <p style={{ fontWeight: "bold", marginBottom: "8px" }}>
+            {publishStage}
+          </p>
+
+          {publishStage === "Uploading game build..." && (
+            <>
+              <p>Uploading: {uploadProgress}%</p>
+              <div
+                style={{
+                  height: "6px",
+                  width: "100%",
+                  background: "#222",
+                  borderRadius: "4px",
+                }}
+              >
+                <div
+                  style={{
+                    height: "6px",
+                    width: `${uploadProgress}%`,
+                    background: "limegreen",
+                    borderRadius: "4px",
+                    transition: "width 0.3s ease",
+                  }}
+                />
+              </div>
+            </>
+          )}
         </div>
       )}
       <hr className="uploadgame-form-hr" />

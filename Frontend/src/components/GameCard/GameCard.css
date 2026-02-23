@@ -1,47 +1,82 @@
+.game-card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
 .game-card {
     background-color: #111630;
     height: 270px;
-    width: 270px;
+    width: 310px;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
+    gap: 0.8rem;
     position: relative;
     overflow: hidden;
+    transition: transform 0.2s ease;
+    cursor: pointer;
 }
 
-.game-card-tag {
+.game-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Premium Badge */
+.game-card-badge {
     position: absolute;
-    z-index: 3;
-
-    background: #ef4444;
-    color: white;
-    padding: 6px 12px;
-    font-size: 0.5rem;
+    top: 0px;
+    left: 0px;
+    background: gold;
+    color: black;
+    padding: 4px 8px;
+    font-size: 1rem;
     font-weight: 600;
+    border-radius: 4px;
+    z-index: 2;
 }
 
+/* Thumbnail */
+.game-card-image {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+}
+
+/* Content Section */
 .game-card-content {
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
+    justify-content: space-between;
+    gap: 0.6rem;
+    padding: 8px 10px;
 }
 
-.game-card-content h2 {
-    font-weight: 100;
+/* Title */
+.game-card-title {
+    font-weight: 400;
     color: white;
+    font-size: 2rem;
+    text-align: center;
 }
 
-.game-card-content button {
-    width: 50%;
-    height: 30px;
-    background-color: #5C4BD8;
-    border: none;
+/* Rating + Views */
+.game-card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
-.game-card-button-link {
-    color: white;
-    font-size: 1rem;
-    text-decoration: none;
+.game-card-meta span {
+    font-size: 1.6rem;
+    color: #cbd5e1;
+}
+
+.game-card-meta-right{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
 }

@@ -1,20 +1,26 @@
 const express = require("express");
-const User = require("../models/User");
-const uploadProfilePic = require("../config/multer-config").uploadProfilePic;
-const fs = require("fs");
-const path = require("path");
-const verifyuser = require("../middlewares/auth.js");
+const Game = require("../models/Game");
 
 module.exports = () => {
   const router = express.Router();
 
-  // GET: Get user data
-  router.get("/games/:uid", async (req, res) => {
-    const { uid } = req.params;
-    console.log("get request is recieved by", uid );
-    res.status(200).json({
-        gameurl: "https://pub-2a084d30ce654c358a5f896e2b0052a3.r2.dev/web-game-export/index.html"
-    })
+  // GET single game by slug
+  router.get("/games/:slug", async (req, res) => {
+    try {
+      const { slug } = req.params;
+
+      const game = await Game.findOne({ slug, status: "approved" })
+        .populate("developer", "username fullName");
+
+      if (!game) {
+        return res.status(404).json({ message: "Game not found" });
+      }
+
+      res.status(200).json(game);
+    } catch (err) {
+      console.error("Error fetching game:", err);
+      res.status(500).json({ message: "Server error" });
+    }
   });
 
   return router;

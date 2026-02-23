@@ -39,11 +39,10 @@ const GameSchema = new Schema(
       // required: true,
     },
 
-    screenshots: [
-      {
-        type: String,
-      },
-    ],
+    screenshots: {
+      type: [String],
+      default: [],
+    },
 
     trailerUrl: {
       type: String,
@@ -82,6 +81,10 @@ const GameSchema = new Schema(
       },
     },
 
+    webEntry: {
+      type: String,
+    },
+
     // Only for downloadable games
     supportedOS: [
       {
@@ -110,11 +113,15 @@ const GameSchema = new Schema(
 
     plays: { type: Number, default: 0 },
 
-    likes: { type: Number, default: 0 },
+    rating: {
+      type: Number,
+      default: 0,
+    },
 
-    rating: { type: Number, default: 0 },
-
-    totalRatings: [{ type: Number, default: 0 }],
+    totalRatings: {
+      type: [Number],
+      default: [0, 0, 0, 0, 0],
+    },
 
     // Moderation
 

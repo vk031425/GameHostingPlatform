@@ -29,11 +29,8 @@ module.exports = () => {
         description,
         shortDescription,
         categories,
-        thumbnailUrl,
-        screenshots,
         trailerUrl,
         distributionType,
-        build,
         supportedOS,
         systemRequirements,
         isPremium,
@@ -65,13 +62,11 @@ module.exports = () => {
         shortDescription,
         categories,
 
-        screenshots,
         trailerUrl,
 
         developer: req.user.id,
 
         distributionType,
-        build,
         supportedOS,
         systemRequirements,
 
@@ -193,6 +188,243 @@ module.exports = () => {
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Upload confirmation failed" });
+    }
+  });
+
+  router.post(
+    "/game-upload/get-media-upload-url",
+    verifyuser,
+    async (req, res) => {
+      try {
+        const { gameId, fileType, mediaType } = req.body;
+
+        if (!gameId || !fileType || !mediaType) {
+          return res.status(400).json({ message: "Missing fields" });
+        }
+
+        const game = await Game.findById(gameId);
+
+        if (!game) {
+          return res.status(404).json({ message: "Game not found" });
+        }
+
+        if (game.developer.toString() !== req.user.id) {
+          return res.status(403).json({ message: "Not authorized" });
+        }
+
+        const uniqueId = uuidv4();
+
+        const extension = fileType.split("/")[1];
+
+        const fileKey = `games/${req.user.id}/${gameId}/media/${mediaType}-${uniqueId}.${extension}`;
+
+        const command = new PutObjectCommand({
+          Bucket: process.env.R2_BUCKET,
+          Key: fileKey,
+          ContentType: fileType,
+        });
+
+        const uploadUrl = await getSignedUrl(r2, command, {
+          expiresIn: 300,
+        });
+
+        res.json({ uploadUrl, fileKey });
+      } catch (err) {
+        console.error(err);
+        res
+          .status(500)
+          .json({ message: "Failed to generate media upload URL" });
+      }
+    },
+  );
+
+  router.post(
+    "/game-upload/confirm-media-upload",
+    verifyuser,
+    async (req, res) => {
+      try {
+        const { gameId, fileKey, mediaType } = req.body;
+
+        const game = await Game.findById(gameId);
+
+        if (!game) return res.status(404).json({ message: "Game not found" });
+
+        if (game.developer.toString() !== req.user.id) {
+          return res.status(403).json({ message: "Not authorized" });
+        }
+
+        if (mediaType === "thumbnail") {
+          game.thumbnailUrl = fileKey;
+        }
+
+        if (mediaType === "screenshot") {
+          game.screenshots.push(fileKey);
+        }
+
+        await game.save();
+
+        res.json({ message: "Media uploaded successfully" });
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Media confirmation failed" });
+      }
+    },
+  );
+
+  router.post(
+    "/game-upload/get-web-upload-url",
+    verifyuser,
+    async (req, res) => {
+      try {
+        const { gameId, filePath, fileType } = req.body;
+
+        if (!gameId || !filePath) {
+          return res.status(400).json({ message: "Missing fields" });
+        }
+
+        if (filePath.includes("..")) {
+          return res.status(400).json({ message: "Invalid file path" });
+        }
+
+        const game = await Game.findById(gameId);
+
+        if (!game) {
+          return res.status(404).json({ message: "Game not found" });
+        }
+
+        if (game.developer.toString() !== req.user.id) {
+          return res.status(403).json({ message: "Not authorized" });
+        }
+
+        const fileKey = `games/${req.user.id}/${gameId}/web/${filePath}`;
+
+        const command = new PutObjectCommand({
+          Bucket: process.env.R2_BUCKET,
+          Key: fileKey,
+          ContentType: fileType || "application/octet-stream",
+        });
+
+        const uploadUrl = await getSignedUrl(r2, command, {
+          expiresIn: 300,
+        });
+
+        res.json({ uploadUrl, fileKey });
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Failed to generate web upload URL" });
+      }
+    },
+  );
+
+  router.post(
+    "/game-upload/confirm-web-upload",
+    verifyuser,
+    async (req, res) => {
+      try {
+        const { gameId } = req.body;
+
+        const game = await Game.findById(gameId);
+
+        if (!game) {
+          return res.status(404).json({ message: "Game not found" });
+        }
+
+        if (game.developer.toString() !== req.user.id) {
+          return res.status(403).json({ message: "Not authorized" });
+        }
+
+        const indexKey = `games/${req.user.id}/${gameId}/web/index.html`;
+
+        // Check if index.html exists
+        try {
+          await r2.send(
+            new HeadObjectCommand({
+              Bucket: process.env.R2_BUCKET,
+              Key: indexKey,
+            }),
+          );
+        } catch (err) {
+          return res.status(400).json({
+            message: "index.html not found in uploaded folder",
+          });
+        }
+
+        game.webEntry = indexKey;
+
+        await game.save();
+
+        res.json({ message: "Web upload confirmed successfully" });
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Web confirmation failed" });
+      }
+    },
+  );
+
+  /*
+============================================
+❌ DELETE GAME (CLEANUP FAILED UPLOAD)
+============================================
+*/
+
+  router.delete("/game-upload/delete/:gameId", verifyuser, async (req, res) => {
+    try {
+      const { gameId } = req.params;
+
+      const game = await Game.findById(gameId);
+
+      if (!game) {
+        return res.status(404).json({ message: "Game not found" });
+      }
+
+      if (game.developer.toString() !== req.user.id) {
+        return res.status(403).json({ message: "Not authorized" });
+      }
+
+      // Delete build file if exists
+      if (game.build?.fileKey) {
+        await r2.send(
+          new DeleteObjectCommand({
+            Bucket: process.env.R2_BUCKET,
+            Key: game.build.fileKey,
+          }),
+        );
+      }
+
+      // Delete thumbnail
+      if (game.thumbnailUrl) {
+        await r2.send(
+          new DeleteObjectCommand({
+            Bucket: process.env.R2_BUCKET,
+            Key: game.thumbnailUrl,
+          }),
+        );
+      }
+
+      // Delete screenshots
+      if (game.screenshots?.length > 0) {
+        for (const key of game.screenshots) {
+          await r2.send(
+            new DeleteObjectCommand({
+              Bucket: process.env.R2_BUCKET,
+              Key: key,
+            }),
+          );
+        }
+      }
+
+      // Delete web folder files
+      const webPrefix = `games/${req.user.id}/${gameId}/web/`;
+
+      // Optional: Use ListObjects + delete all under prefix
+      // (recommended for web builds)
+
+      await Game.findByIdAndDelete(gameId);
+
+      res.json({ message: "Game deleted successfully" });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "Failed to delete game" });
     }
   });
 

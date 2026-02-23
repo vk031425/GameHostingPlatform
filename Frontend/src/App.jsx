@@ -15,7 +15,7 @@ const App = ()=>{
     <Navbar/>
     <Routes>
       <Route path="/" element= {<Home/>}/>
-      <Route path="/games/:gameId" element={<GamePlay/>} />
+      <Route path="/games/:slug" element={<GamePlay/>} />
       <Route path="/signin" element={<SignIn/>} />
       <Route path="/signup" element={<SignUp/>} />
       <Route path="/games" element={<Games/>} />

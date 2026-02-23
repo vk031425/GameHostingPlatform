@@ -13,6 +13,7 @@ const DeveloperProfileUpload = () => {
   const [step, setStep] = useState(1);
   const [isPublishing, setIsPublishing] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [publishStage, setPublishStage] = useState("");
 
   // Track highest completed step
   const [maxCompletedStep, setMaxCompletedStep] = useState(1);
@@ -27,6 +28,7 @@ const DeveloperProfileUpload = () => {
     trailerUrl: "",
     distributionType: "",
     buildFile: null,
+    webFiles: [],
     supportedOS: [],
     systemRequirements: "",
     version: "",
@@ -62,18 +64,63 @@ const DeveloperProfileUpload = () => {
     }
   };
 
+  const uploadThumbnail = async (gameId) => {
+    if (!gameData.thumbnail) return;
+
+    const { data } = await API.post("/game-upload/get-media-upload-url", {
+      gameId,
+      fileType: gameData.thumbnail.type,
+      mediaType: "thumbnail",
+    });
+
+    await axios.put(data.uploadUrl, gameData.thumbnail, {
+      headers: { "Content-Type": gameData.thumbnail.type },
+      withCredentials: false,
+    });
+
+    await API.post("/game-upload/confirm-media-upload", {
+      gameId,
+      fileKey: data.fileKey,
+      mediaType: "thumbnail",
+    });
+  };
+
+  const uploadScreenshots = async (gameId) => {
+    if (!gameData.screenshots?.length) return;
+
+    for (const screenshot of gameData.screenshots) {
+      const { data } = await API.post("/game-upload/get-media-upload-url", {
+        gameId,
+        fileType: screenshot.type,
+        mediaType: "screenshot",
+      });
+
+      await axios.put(data.uploadUrl, screenshot, {
+        headers: { "Content-Type": screenshot.type },
+        withCredentials: false,
+      });
+
+      await API.post("/game-upload/confirm-media-upload", {
+        gameId,
+        fileKey: data.fileKey,
+        mediaType: "screenshot",
+      });
+    }
+  };
+
   const handlePublish = async () => {
+    let gameId = null;
+
     try {
       setIsPublishing(true);
+      setUploadProgress(0);
+      setPublishStage("Creating game...");
 
-      //  Create game
       const createRes = await API.post("/game-upload/create", {
         title: gameData.gameTitle,
         description: gameData.description,
         shortDescription: gameData.shortDescription,
         categories: gameData.categories,
-        thumbnailUrl: gameData.thumbnail, // later you upload this too
-        screenshots: [], // handle later
         trailerUrl: gameData.trailerUrl,
         distributionType: gameData.distributionType,
         supportedOS: gameData.supportedOS,
@@ -82,43 +129,86 @@ const DeveloperProfileUpload = () => {
         price: gameData.price,
       });
 
-      const gameId = createRes.data.gameId;
+      gameId = createRes.data.gameId;
 
-      // Get upload URL
-      const uploadRes = await API.post("/game-upload/get-upload-url", {
-        gameId,
-        version: gameData.version,
-        fileType: gameData.buildFile.type,
-      });
+      // 🔥 Thumbnail
+      if (gameData.thumbnail) {
+        setPublishStage("Uploading thumbnail...");
+        await uploadThumbnail(gameId);
+      }
 
-      const { uploadUrl, fileKey } = uploadRes.data;
+      // 🔥 Screenshots
+      if (gameData.screenshots?.length > 0) {
+        setPublishStage("Uploading screenshots...");
+        await uploadScreenshots(gameId);
+      }
 
-      // Upload build directly to R2
-      await axios.put(uploadUrl, gameData.buildFile, {
-        headers: {
-          "Content-Type": gameData.buildFile.type,
-        },
-        withCredentials: false, // force disable cookies
-        onUploadProgress: (progressEvent) => {
-          const percent = Math.round(
-            (progressEvent.loaded * 100) / progressEvent.total,
-          );
-          setUploadProgress(percent);
-        },
-      });
+      // 🔥 Distribution Upload
+      if (gameData.distributionType === "browser") {
+        setPublishStage("Uploading web game files...");
 
-      //  Confirm upload
-      await API.post("/game-upload/confirm-upload", {
-        gameId,
-        fileKey,
-        version: gameData.version,
-      });
+        for (const file of gameData.webFiles) {
+          const parts = file.webkitRelativePath.split("/");
+          parts.shift();
+          const relativePath = parts.join("/");
 
+          const { data } = await API.post("/game-upload/get-web-upload-url", {
+            gameId,
+            filePath: relativePath,
+            fileType: file.type || "application/octet-stream",
+          });
+
+          await axios.put(data.uploadUrl, file, {
+            headers: {
+              "Content-Type": file.type || "application/octet-stream",
+            },
+          });
+        }
+
+        await API.post("/game-upload/confirm-web-upload", { gameId });
+      } else {
+        setPublishStage("Uploading downloadable build...");
+
+        const uploadRes = await API.post("/game-upload/get-upload-url", {
+          gameId,
+          version: gameData.version,
+          fileType: gameData.buildFile.type,
+        });
+
+        const { uploadUrl, fileKey } = uploadRes.data;
+
+        await axios.put(uploadUrl, gameData.buildFile, {
+          headers: { "Content-Type": gameData.buildFile.type },
+          onUploadProgress: (progressEvent) => {
+            const percent = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total,
+            );
+            setUploadProgress(percent);
+          },
+        });
+
+        await API.post("/game-upload/confirm-upload", {
+          gameId,
+          fileKey,
+          version: gameData.version,
+        });
+      }
+
+      setPublishStage("Completed!");
       alert("Game Published Successfully!");
       window.location.reload();
     } catch (err) {
       console.error(err);
-      alert("Publishing failed");
+
+      if (gameId) {
+        try {
+          await API.delete(`/game-upload/delete/${gameId}`);
+        } catch (cleanupErr) {
+          console.error("Cleanup failed:", cleanupErr);
+        }
+      }
+
+      alert("Publishing failed. Changes reverted.");
     } finally {
       setIsPublishing(false);
     }
@@ -222,6 +312,7 @@ const DeveloperProfileUpload = () => {
           onPublish={handlePublish}
           isPublishing={isPublishing}
           uploadProgress={uploadProgress}
+          publishStage={publishStage}
         />
       )}
     </div>

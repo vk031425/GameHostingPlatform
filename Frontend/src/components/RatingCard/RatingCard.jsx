@@ -29,7 +29,7 @@ const RatingCard = (props) => {
   const [hoveredStar, setHoveredStar] = useState(0);
   const [selectedStar, setSelectedStar] = useState(0);
   let maxCount = 0;
-  props.ratings.forEach((rating) => {
+  props.totalRatings.forEach((rating) => {
     maxCount = Math.max(maxCount, rating);
   });
 
@@ -37,11 +37,11 @@ const RatingCard = (props) => {
     <div className="rating-card">
       <div className="rating-card-top">
         <h1>Rating</h1>
-        <p>Rating: 5</p>
+        <p>Rating: {props.rating}</p>
       </div>
       <hr />
       <div className="rating-card-middle">
-        {props.ratings.map((rating, index) => (
+        {props.totalRatings.map((rating, index) => (
           <RatingRow
             key={index}
             stars={5 - index}

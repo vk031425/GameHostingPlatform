@@ -13,6 +13,8 @@ const mongoose = require("mongoose");
 const userRoutes = require("./routes/userRoutes");
 const gameRoutes = require("./routes/gameRoutes");
 const gameUploadRoutes = require("./routes/gameUploadRoutes");
+const gamepageRoutes = require("./routes/gamepageRoutes");
+const paymentRoutes = require("./routes/paymentRoutes");
 
 mongoose.connect(process.env.MONGO_URL);
 
@@ -37,6 +39,8 @@ app.use(
 app.use("/api", userRoutes()); 
 app.use("/api", gameRoutes());
 app.use("/api", gameUploadRoutes());
+app.use("/api", gamepageRoutes());
+app.use("/api", paymentRoutes());
 app.use("/api", require("./routes/testUpload"));
 
 const PORT = process.env.PORT || 8080;

@@ -9,6 +9,7 @@ const UploadGameType = ({ data, setData, nextStep, prevStep }) => {
       ...data,
       distributionType: type,
       buildFile: null,
+      folderName: "",
     });
   };
 
@@ -16,6 +17,58 @@ const UploadGameType = ({ data, setData, nextStep, prevStep }) => {
     setData({
       ...data,
       [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleFolderChange = async (e) => {
+    const files = Array.from(e.target.files);
+
+    if (!files.length) {
+      alert("Folder is empty.");
+      return;
+    }
+
+    const folderName = files[0].webkitRelativePath.split("/")[0];
+    // Check index.html at root
+    const indexFile = files.find(
+      (file) =>
+        file.name.toLowerCase() === "index.html" &&
+        file.webkitRelativePath.split("/").length === 2,
+    );
+
+    if (!indexFile) {
+      alert("Folder must contain index.html at root level.");
+      return;
+    }
+
+    // Check index.html not empty
+    if (indexFile.size === 0) {
+      alert("index.html is empty.");
+      return;
+    }
+
+    // Block dangerous file types
+    const blockedExtensions = [".php", ".exe", ".bat", ".sh", ".py"];
+    const hasBlockedFile = files.some((file) =>
+      blockedExtensions.some((ext) => file.name.toLowerCase().endsWith(ext)),
+    );
+
+    if (hasBlockedFile) {
+      alert("Folder contains forbidden file types.");
+      return;
+    }
+
+    // Optional: limit total folder size (500MB)
+    const totalSize = files.reduce((acc, file) => acc + file.size, 0);
+    if (totalSize > 500 * 1024 * 1024) {
+      alert("Folder exceeds 500MB limit.");
+      return;
+    }
+
+    setData({
+      ...data,
+      webFiles: files,
+      folderName: folderName,
     });
   };
 
@@ -47,7 +100,12 @@ const UploadGameType = ({ data, setData, nextStep, prevStep }) => {
       return;
     }
 
-    if (!data.buildFile) {
+    if (data.distributionType === "browser" && !data.webFiles.length) {
+      alert("Upload game folder");
+      return;
+    }
+
+    if (data.distributionType === "download" && !data.buildFile) {
       alert("Upload game file");
       return;
     }
@@ -110,7 +168,7 @@ const UploadGameType = ({ data, setData, nextStep, prevStep }) => {
             <div className="uploadgame-gametype-uploadcard-top">
               <h3>
                 {data.distributionType === "browser"
-                  ? "Upload WebGL Build (.zip)"
+                  ? "Upload Web Game Folder"
                   : "Upload Game File"}
               </h3>
             </div>
@@ -118,33 +176,38 @@ const UploadGameType = ({ data, setData, nextStep, prevStep }) => {
               className="uploadgame-gametype-upload-dropzone"
               onClick={() => buildRef.current.click()}
             >
-              {data.buildFile ? (
-                <div className="file-info">
-                  <p>{data.buildFile.name}</p>
-                  <span>
-                    {(data.buildFile.size / 1024 / 1024).toFixed(2)} MB
-                  </span>
-                </div>
+              {data.distributionType === "browser" ? (
+                data.webFiles?.length > 0 ? (
+                  <div className="file-info">
+                    <p>
+                      <strong>{data.folderName}</strong>
+                    </p>
+                    <span>{data.webFiles.length} files selected</span>
+                  </div>
+                ) : (
+                  <div className="uploadgame-gametype-upload-drop-placeholder">
+                    <p>
+                      Drag & Drop or Click here to upload Game Folder containing
+                      index.html file
+                    </p>
+                    <span>Max size: 500MB</span>
+                  </div>
+                )
               ) : (
                 <div className="uploadgame-gametype-upload-drop-placeholder">
-                  <p>
-                    {data.distributionType === "browser"
-                      ? "Drag & Drop WebGL .zip File"
-                      : "Drag & Drop .zip / .exe File"}
-                  </p>
+                  <p>Drag & Drop .zip / .exe File</p>
                   <span>Max size: 500MB</span>
                 </div>
               )}
             </div>
-
             <input
               type="file"
               ref={buildRef}
               hidden
-              accept={
-                data.distributionType === "browser" ? ".zip" : ".zip,.exe"
-              }
-              onChange={handleFileChange}
+              multiple
+              webkitdirectory="true"
+              directory=""
+              onChange={handleFolderChange}
             />
           </div>
 

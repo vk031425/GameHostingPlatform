@@ -9,75 +9,104 @@ import PurchaseGameCard from "../../components/PurchaseGameCard/PurchaseGameCard
 import PlayGameCard from "../../components/PlayGameCard/PlayGameCard";
 import DownloadGameCard from "../../components/DownloadGameCard/DownloadGameCard";
 import RatingCard from "../../components/RatingCard/RatingCard";
+import API from "../../config/api";
+import { CDN_BASE_URL } from "../../config/constants";
 
 const GamePlay = () => {
-  const { gameId } = useParams();
-  const {authData, setAuthData} = useContext(AuthContext);
-  const [gamedata, setgameData] = useState({
-    gameName: "",
-    tags: [],
-    description: "",
-    subscription: "",
-    playtype: "",
-    releaseDate: "",
-    developer: "",
-    version: "",
-    price: "",
-    ratings: [],
-  });
+  const { slug } = useParams();
+  const { authData, setAuthData } = useContext(AuthContext);
+  const [gamedata, setgameData] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
-  const getgameData = () => {
-    // const response = await API.get("/games/tombraider213");
-    const response = {
-      gameName: "WonderFighter",
-      tags: ["Fighting", "Multiplayer", "Casual", "Action"],
-      description:
-        "Wonder Fighter a fighting game in which player come online and fight with each other. Very intersting game. Play can use in game coins to upgrade their moves on the basis of power.",
-      subscription: "Paid",
-      playtype: "download",
-      releaseDate: "14 February, 2026",
-      developer: "VK Gamers",
-      version: "1.0.0",
-      price: "6.9",
-      ratings: [256,34,12,15,10],
-    };
-    setgameData(response);
+  const thumbnailUrl = gamedata?.thumbnailUrl
+    ? `${CDN_BASE_URL}/${gamedata.thumbnailUrl}`
+    : "/images/fallback-thumbnail.jpg";
+
+  const gameUrl = gamedata?.webEntry
+    ? `${CDN_BASE_URL}/${gamedata.webEntry}`
+    : "/images/fallback-thumbnail.jpg";
+
+  const getgameData = async () => {
+    try {
+      const response = await API.get(`/games/${slug}`);
+      setgameData(response.data);
+      console.log(response);
+    } catch (err) {
+      console.error("Error fetching game:", err);
+    }
   };
 
   let purchased = false;
-  if(authData.isLoggedIn === true){
-    purchased = authData.user.purchasedGames.includes(gamedata.gameName);
-  }
-  else{
-    purchased = false;
+  if (authData?.isLoggedIn && gamedata) {
+    purchased = authData.user.purchasedGames.includes(gamedata._id);
   }
 
   const getTopRightCard = () => {
-    if (gamedata.subscription === "Paid" && !purchased) {
-      return <PurchaseGameCard price={gamedata.price} />;
-    } else if (gamedata.playtype === "browser") {
-      return <PlayGameCard />;
+    if (!gamedata) return null;
+
+    if (gamedata.isPremium && !purchased) {
+      return <PurchaseGameCard price={gamedata.price} gameId={gamedata._id} />;
+    } else if (gamedata.distributionType === "browser") {
+      return <PlayGameCard gameUrl={gameUrl} />;
     } else {
-      return <DownloadGameCard />;
+      return <DownloadGameCard build={gamedata.build} />;
     }
   };
 
   useEffect(() => {
-    getgameData();
-  }, []);
+    if (slug) {
+      getgameData();
+    }
+  }, [slug]);
+
+  if (!gamedata) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
       <div className="gameplay-page-container">
-        <h1 id="game-title">{gamedata.gameName}</h1>
+        <h1 id="game-title">{gamedata.title}</h1>
         <section className="gameplay-top-section">
           <div className="gameplay-top-left">
             <div className="gameplay-playscreen">
-              {/* this will be the play area */}
+              {gamedata.distributionType === "browser" ? (
+                purchased || !gamedata.isPremium ? (
+                  isPlaying ? (
+                    <iframe
+                      src={gameUrl}
+                      title={gamedata.title}
+                      frameBorder="0"
+                      allowFullScreen
+                    />
+                  ) : (
+                    <div className="thumbnail-container">
+                      <img src={thumbnailUrl} alt={gamedata.title} />
+                      <button
+                        className="play-button"
+                        onClick={() => setIsPlaying(true)}
+                      >
+                        ▶
+                      </button>
+                    </div>
+                  )
+                ) : (
+                  <div className="play-overlay">
+                    <h2>Purchase to Play</h2>
+                  </div>
+                )
+              ) : (
+                <div className="download-preview thumbnail-container">
+                  <img src={thumbnailUrl} alt={gamedata.title} />
+                  <div className="play-overlay">
+                    <h2>Download to Play</h2>
+                  </div>
+                </div>
+              )}
             </div>
             <h1>About this game</h1>
             <div className="gameplay-game-tags">
-              {gamedata.tags.map((tag) => (
+              {gamedata.categories.map((tag) => (
                 <button key={tag} className="gameplay-tag-button">
                   {tag}
                 </button>
@@ -92,24 +121,27 @@ const GamePlay = () => {
               <div className="gameplay-gamedetails">
                 <div className="detail">
                   <p>Release Date</p>
-                  <p>{gamedata.releaseDate}</p>
+                  <p>{gamedata.createdAt}</p>
                 </div>
                 <div className="detail">
                   <p>Developer</p>
-                  <p>{gamedata.developer}</p>
+                  <p>{gamedata.developer.fullName}</p>
                 </div>
                 <div className="detail">
                   <p>Version</p>
-                  <p>{gamedata.version}</p>
+                  <p>{gamedata.build.version}</p>
                 </div>
                 <div className="detail">
                   <p>Subscription</p>
-                  <p>{gamedata.subscription}</p>
+                  <p>{gamedata.isPremium}</p>
                 </div>
               </div>
             </div>
             {getTopRightCard()}
-            <RatingCard ratings={gamedata.ratings} />
+            <RatingCard
+              rating={gamedata.rating}
+              totalRatings={gamedata.totalRatings}
+            />
           </div>
         </section>
 
