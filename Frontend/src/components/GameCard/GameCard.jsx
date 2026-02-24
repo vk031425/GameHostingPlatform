@@ -1,4 +1,4 @@
-import { CDN_BASE_URL } from "../../config/constants";
+import { CDN_BASE_URL } from "../../utils/constants";
 import { Link } from "react-router-dom";
 import "./GameCard.css";
 

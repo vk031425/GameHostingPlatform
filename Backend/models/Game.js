@@ -71,14 +71,15 @@ const GameSchema = new Schema(
         type: Number, // in bytes
       },
 
-      version: {
-        type: String,
-      },
-
       uploadedAt: {
         type: Date,
         default: Date.now,
       },
+    },
+
+    version: {
+      type: String,
+      required: true,
     },
 
     webEntry: {
@@ -111,7 +112,7 @@ const GameSchema = new Schema(
     // Statistics
     views: { type: Number, default: 0 },
 
-    plays: { type: Number, default: 0 },
+    engagements: { type: Number, default: 0 },
 
     rating: {
       type: Number,
@@ -122,6 +123,13 @@ const GameSchema = new Schema(
       type: [Number],
       default: [0, 0, 0, 0, 0],
     },
+
+    userRatings: [
+      {
+        user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        rating: { type: Number, min: 1, max: 5 },
+      },
+    ],
 
     // Moderation
 

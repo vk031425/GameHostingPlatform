@@ -2,8 +2,20 @@ import "./PurchaseGameCard.css";
 import API from "../../config/api";
 import { useState } from "react";
 
-const PurchaseGameCard = ({ price, gameId }) => {
+const PurchaseGameCard = ({ price, setAuthData, gameId }) => {
   const [loading, setLoading] = useState(false);
+
+  const handleWishlist = async () => {
+    const res = await API.post(`/games/${gameId}/wishlist`);
+
+    setAuthData((prev) => ({
+      ...prev,
+      user: {
+        ...prev.user,
+        wishlist: res.data.wishlist,
+      },
+    }));
+  };
 
   const handleBuyNow = async () => {
     console.log("buy now clicked");
@@ -51,7 +63,6 @@ const PurchaseGameCard = ({ price, gameId }) => {
       rzp.on("payment.failed", function (response) {
         alert("Payment Failed ❌");
       });
-
     } catch (err) {
       console.error(err);
       alert("Something went wrong");
@@ -62,9 +73,7 @@ const PurchaseGameCard = ({ price, gameId }) => {
 
   return (
     <div className="purchasegame-card-container">
-      <h1>
-        ₹ {price}
-      </h1>
+      <h1>₹ {price}</h1>
 
       <button
         className="buynow-button"
@@ -74,7 +83,7 @@ const PurchaseGameCard = ({ price, gameId }) => {
         {loading ? "Processing..." : "Buy Now"}
       </button>
 
-      <button className="add-wishlist-button">
+      <button onClick={handleWishlist} className="add-wishlist-button">
         Add to Wishlist
       </button>
     </div>

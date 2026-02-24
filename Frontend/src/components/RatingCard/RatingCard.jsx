@@ -1,8 +1,9 @@
 import "./RatingCard.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import API from "../../config/api";
 
 const RatingRow = ({ stars, count, maxCount }) => {
-  const percentage = (count / maxCount) * 100;
+  const percentage = maxCount > 0 ? (count / maxCount) * 100 : 0;
 
   return (
     <div className="rating-row">
@@ -25,34 +26,79 @@ const RatingRow = ({ stars, count, maxCount }) => {
   );
 };
 
-const RatingCard = (props) => {
+const RatingCard = ({
+  rating,
+  totalRatings,
+  gameId,
+  setgameData,
+  userRating,
+}) => {
   const [hoveredStar, setHoveredStar] = useState(0);
-  const [selectedStar, setSelectedStar] = useState(0);
-  let maxCount = 0;
-  props.totalRatings.forEach((rating) => {
-    maxCount = Math.max(maxCount, rating);
-  });
+  const [selectedStar, setSelectedStar] = useState(userRating || 0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Find max count for progress bar scaling
+  const maxCount = Math.max(...totalRatings, 0);
+
+  const handleRate = async (star) => {
+    if (isSubmitting) return;
+
+    try {
+      setIsSubmitting(true);
+      setSelectedStar(star);
+
+      const res = await API.post(`/games/${gameId}/rate`, {
+        rating: star,
+      });
+
+      setgameData((prev) => ({
+        ...prev,
+        rating: res.data.rating,
+        totalRatings: res.data.totalRatings,
+      }));
+    } catch (err) {
+      console.error("Rating error:", err);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  useEffect(() => {
+    setSelectedStar(userRating || 0);
+  }, [userRating]);
 
   return (
     <div className="rating-card">
+      {/* TOP */}
       <div className="rating-card-top">
         <h1>Rating</h1>
-        <p>Rating: {props.rating}</p>
+        <p>Rating: {rating ? rating.toFixed(1) : "0.0"}</p>
       </div>
+
       <hr />
+
+      {/* MIDDLE - DISTRIBUTION */}
       <div className="rating-card-middle">
-        {props.totalRatings.map((rating, index) => (
-          <RatingRow
-            key={index}
-            stars={5 - index}
-            count={rating}
-            maxCount={maxCount}
-          />
-        ))}
+        {[5, 4, 3, 2, 1].map((starValue) => {
+          const count = totalRatings[starValue - 1]; // 0 index = 1 star
+
+          return (
+            <RatingRow
+              key={starValue}
+              stars={starValue}
+              count={count}
+              maxCount={maxCount}
+            />
+          );
+        })}
       </div>
+
       <hr />
+
+      {/* BOTTOM - USER RATING */}
       <div className="rating-card-bottom">
         <h2>Rate this game :</h2>
+
         <div className="rating-card-bottom-stars">
           {[...Array(5)].map((_, i) => {
             const starValue = i + 1;
@@ -60,15 +106,15 @@ const RatingCard = (props) => {
             return (
               <i
                 key={i}
-                className={`fa-star fa-solid ${
+                className={`fa-solid fa-star ${
                   starValue <= (hoveredStar || selectedStar)
                     ? "yellow-star"
                     : "normal-star"
                 }`}
                 onMouseEnter={() => setHoveredStar(starValue)}
                 onMouseLeave={() => setHoveredStar(0)}
-                onClick={() => setSelectedStar(starValue)}
-                style={{ cursor: "pointer" }}
+                onClick={() => handleRate(starValue)}
+                style={{ cursor: isSubmitting ? "not-allowed" : "pointer" }}
               ></i>
             );
           })}

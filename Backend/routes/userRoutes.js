@@ -2,6 +2,7 @@ const express = require("express");
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const verifyUser = require("../middlewares/auth");
 
 module.exports = () => {
   const router = express.Router();
@@ -110,14 +111,14 @@ module.exports = () => {
           fullName: user.fullName,
           username: user.username,
           email: user.email,
-          profilepic : user.profilepic,
-          recentlyPlayed : user.recentlyPlayed,
+          profilepic: user.profilepic,
+          recentlyPlayed: user.recentlyPlayed,
           purchasedGames: user.purchasedGames,
-          favoriteGames : user.favoriteGames,
-          wishlist : user.wishlist,
-          gamesPlayed : user.gamesPlayed,
-          reviewsPosted : user.reviewsPosted,
-          createdAt : user.createdAt
+          favoriteGames: user.favoriteGames,
+          wishlist: user.wishlist,
+          gamesPlayed: user.gamesPlayed,
+          reviewsPosted: user.reviewsPosted,
+          createdAt: user.createdAt,
         },
       });
     } catch (error) {
@@ -130,6 +131,17 @@ module.exports = () => {
   router.post("/user/logout", (req, res) => {
     res.clearCookie("token");
     res.json({ message: "Logged out successfully" });
+  });
+
+  //verifyuser route
+  router.get("/user/verify", verifyUser, async (req, res) => {
+    try {
+      const user = await User.findById(req.user.id).select("-password");
+
+      res.status(200).json({ user });
+    } catch (error) {
+      res.status(500).json({ message: "Server error" });
+    }
   });
 
   return router;
