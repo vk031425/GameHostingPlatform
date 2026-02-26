@@ -2,10 +2,14 @@ import "./PurchaseGameCard.css";
 import API from "../../config/api";
 import { useState } from "react";
 
-const PurchaseGameCard = ({ price, setAuthData, gameId }) => {
+const PurchaseGameCard = ({ price, authData, setAuthData, gameId }) => {
   const [loading, setLoading] = useState(false);
 
   const handleWishlist = async () => {
+    if (!authData?.isLoggedIn) {
+      alert("Please login to proceed.");
+      return;
+    }
     const res = await API.post(`/games/${gameId}/wishlist`);
 
     setAuthData((prev) => ({
@@ -18,7 +22,10 @@ const PurchaseGameCard = ({ price, setAuthData, gameId }) => {
   };
 
   const handleBuyNow = async () => {
-    console.log("buy now clicked");
+    if (!authData?.isLoggedIn) {
+      alert("Please login to proceed.");
+      return;
+    }
     try {
       setLoading(true);
 

@@ -1,4 +1,4 @@
-.profile-favorites-container{
+.profile-favorites-container {
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -6,16 +6,15 @@
 }
 
 
-.profile-favorites-container h1{
+.profile-favorites-container h1 {
     color: white;
     font-size: 3.5rem;
 }
 
 
-.profile-favorites-card-container{
+.profile-favorites-card-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(235px, 1fr));
-    place-items: center;
-    gap: 50px;
-    padding: 0px 10px;
+    grid-template-columns: repeat(auto-fill, 310px);
+    gap: 20px;
+    justify-content: start;
 }

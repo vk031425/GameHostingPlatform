@@ -1,5 +1,6 @@
 const express = require("express");
 const User = require("../models/User");
+const Game = require("../models/Game");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const verifyUser = require("../middlewares/auth");
@@ -142,6 +143,77 @@ module.exports = () => {
     } catch (error) {
       res.status(500).json({ message: "Server error" });
     }
+  });
+
+  router.get("/user/favorites", verifyUser, async (req, res) => {
+    try {
+      const user = await User.findById(req.user.id);
+
+      const games = await Game.find({
+        _id: { $in: user.favoriteGames },
+        status: "approved",
+      })
+        .sort({ createdAt: -1 })
+        .select("_id slug title thumbnailUrl rating views isPremium");
+
+      res.status(200).json({ games });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Server error" });
+    }
+  });
+
+  router.get("/user/wishlist", verifyUser, async (req, res) => {
+    try {
+      const user = await User.findById(req.user.id);
+
+      const games = await Game.find({
+        _id: { $in: user.wishlist },
+        status: "approved",
+      })
+        .sort({ createdAt: -1 })
+        .select("_id slug title thumbnailUrl rating views isPremium");
+
+      res.status(200).json({ games });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Server error" });
+    }
+  });
+
+  router.get("/user/purchasedgames", verifyUser, async (req, res) => {
+    try {
+      const user = await User.findById(req.user.id);
+
+      const games = await Game.find({
+        _id: { $in: user.purchasedGames },
+        status: "approved",
+      })
+        .sort({ createdAt: -1 })
+        .select("_id slug title thumbnailUrl rating views isPremium");
+
+      res.status(200).json({ games });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Server error" });
+    }
+  });
+
+  // Remove from favorites
+  router.put("/user/favorites/remove/:gameId", verifyUser, async (req, res) => {
+    await User.findByIdAndUpdate(req.user.id, {
+      $pull: { favoriteGames: req.params.gameId },
+    });
+
+    res.json({ success: true });
+  });
+
+  router.put("/user/wishlist/remove/:gameId", verifyUser, async (req, res) => {
+    await User.findByIdAndUpdate(req.user.id, {
+      $pull: { wishlist: req.params.gameId },
+    });
+
+    res.json({ success: true });
   });
 
   return router;

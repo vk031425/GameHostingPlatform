@@ -1,8 +1,18 @@
 import "./PlayGameCard.css";
 import API from "../../config/api";
 
-const PlayGameCard = ({ mediaMode, gameId, setAuthData, setMediaMode }) => {
+const PlayGameCard = ({
+  mediaMode,
+  gameId,
+  authData,
+  setAuthData,
+  setMediaMode,
+}) => {
   const handleFavorite = async () => {
+    if (!authData?.isLoggedIn) {
+      alert("Please login to proceed.");
+      return;
+    }
     const res = await API.post(`/games/${gameId}/favorite`);
 
     setAuthData((prev) => ({

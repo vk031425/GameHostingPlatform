@@ -1,14 +1,155 @@
-.replies {
-  margin-left: 40px;
-  margin-top: 10px;
-  border-left: 2px solid #333;
-  padding-left: 15px;
+/* ========================= */
+/* Comment Wrapper (Depth)   */
+/* ========================= */
+
+.comment-wrapper {
+  position: relative;
+  margin-top: 12px;
+}
+
+/* Depth indentation */
+.depth-1 {
+  margin-left: 0px;
+}
+
+.depth-2 {
+  margin-left: 75px;
+}
+
+.depth-3 {
+  margin-left: 75px;
+}
+
+.depth-4 {
+  margin-left: 75px;
+}
+
+/* ========================= */
+/* Comment Card              */
+/* ========================= */
+
+.comment-card {
+  background: #1e1e1e;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #2c2c2c;
+}
+
+/* ========================= */
+/* Comment Header            */
+/* ========================= */
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.comment-header img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.comment-header span:first-of-type {
+  font-weight: 600;
+  color: #4cafef;
+}
+
+.comment-header span:last-of-type {
+  font-size: 12px;
+  color: #888;
+}
+
+/* ========================= */
+/* Comment Content           */
+/* ========================= */
+
+.comment-card p {
+  margin: 6px 0 8px 0;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #ddd;
+}
+
+.mention {
+  color: #4cafef;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* ========================= */
+/* Comment Actions           */
+/* ========================= */
+
+.comment-actions {
+  display: flex;
+  gap: 10px;
 }
 
 .comment-actions button {
-  margin-right: 10px;
   background: transparent;
   border: none;
+  font-size: 13px;
   color: #4cafef;
   cursor: pointer;
+  padding: 0;
+}
+
+.comment-actions button:hover {
+  text-decoration: underline;
+}
+
+/* ========================= */
+/* Reply Box                 */
+/* ========================= */
+
+.reply-box {
+  margin-top: 10px;
+}
+
+.reply-box textarea {
+  width: 100%;
+  min-height: 60px;
+  padding: 8px;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 6px;
+  resize: none;
+  color: white;
+  font-size: 13px;
+}
+
+.reply-box button {
+  margin-top: 6px;
+  padding: 6px 12px;
+  background: #4cafef;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  color: black;
+}
+
+/* ========================= */
+/* Replies Container         */
+/* ========================= */
+
+.replies {
+  position: relative;
+  margin-top: 8px;
+}
+
+/* Vertical branch line */
+.replies::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: #2c2c2c;
 }

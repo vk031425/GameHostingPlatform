@@ -1,39 +1,20 @@
 import "./Profile.css";
 import { AuthContext } from "../../context/AuthContext";
 import { useContext, useState } from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import ProfileOverview from "../../components/Profile/ProfileOverview/ProfileOverview";
 import ProfileMyGames from "../../components/Profile/ProfileMyGames/ProfileMyGames";
 import ProfileWishList from "../../components/Profile/ProfileWishList/ProfileWishList";
 import ProfileFavorites from "../../components/Profile/ProfileFavorites/ProfileFavorites";
-import ProfileComments from "../../components/Profile/ProfileComments/ProfileComments";
 import ProfileSettings from "../../components/Profile/ProfileSettings/ProfileSettings";
 
 const Profile = () => {
   const { authData } = useContext(AuthContext);
-  const [righttab, setrighttab] = useState(<ProfileOverview/>);
+  const [activeTab, setActiveTab] = useState("Overview");
 
-  const buttonHandler = (e)=>{
-    const val = e.currentTarget.value;
-    if(val === "Overview"){
-        setrighttab(<ProfileOverview/>);
-    }
-    else if(val === "Mygames"){
-        setrighttab(<ProfileMyGames/>);
-    }
-    else if(val === "Wishlist"){
-        setrighttab(<ProfileWishList/>);
-    }
-    else if(val === "Favorites"){
-        setrighttab(<ProfileFavorites/>);
-    }
-    else if(val === "Comments"){
-        setrighttab(<ProfileComments/>);
-    }
-    else if(val === "Settings"){
-        setrighttab(<ProfileSettings/>);
-    }
-  }
+  const buttonHandler = (e) => {
+    setActiveTab(e.currentTarget.value);
+  };
 
   return (
     <div className="profile-page-container">
@@ -45,31 +26,49 @@ const Profile = () => {
         </div>
 
         <button className="profile-switch-btn">
-          <Link className="developer-page-link" to="/developer">Go to Developer Profile</Link>
+          <Link className="developer-page-link" to="/developer">
+            Go to Developer Profile
+          </Link>
         </button>
 
         <div className="profile-sidebar-btn-container">
-          <button onClick={buttonHandler} value="Overview" className="profile-sidebar-btn">
+          <button
+            onClick={buttonHandler}
+            value="Overview"
+            className="profile-sidebar-btn"
+          >
             <i class="fa-solid fa-magnifying-glass-chart"></i>
             <p>Overview</p>
           </button>
-          <button onClick={buttonHandler} value="Mygames"className="profile-sidebar-btn">
+          <button
+            onClick={buttonHandler}
+            value="Mygames"
+            className="profile-sidebar-btn"
+          >
             <i class="fa-solid fa-folder"></i>
             <p>My Games</p>
           </button>
-          <button onClick={buttonHandler} value="Wishlist" className="profile-sidebar-btn">
+          <button
+            onClick={buttonHandler}
+            value="Wishlist"
+            className="profile-sidebar-btn"
+          >
             <i class="fa-solid fa-heart"></i>
             <p>Wishlist</p>
           </button>
-          <button onClick={buttonHandler} value="Favorites" className="profile-sidebar-btn">
+          <button
+            onClick={buttonHandler}
+            value="Favorites"
+            className="profile-sidebar-btn"
+          >
             <i class="fa-solid fa-star"></i>
             <p>Favorites</p>
           </button>
-          <button onClick={buttonHandler} value="Comments" className="profile-sidebar-btn">
-            <i class="fa-solid fa-comment"></i>
-            <p>Comments</p>
-          </button>
-          <button onClick={buttonHandler} value="Settings" className="profile-sidebar-btn">
+          <button
+            onClick={buttonHandler}
+            value="Settings"
+            className="profile-sidebar-btn"
+          >
             <i class="fa-solid fa-gear"></i>
             <p>Settings</p>
           </button>
@@ -80,7 +79,11 @@ const Profile = () => {
         </div>
       </div>
       <div className="profile-page-right">
-        {righttab}
+        {activeTab === "Overview" && <ProfileOverview />}
+        {activeTab === "Mygames" && <ProfileMyGames />}
+        {activeTab === "Wishlist" && <ProfileWishList />}
+        {activeTab === "Favorites" && <ProfileFavorites />}
+        {activeTab === "Settings" && <ProfileSettings />}
       </div>
     </div>
   );

@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import "./GamePlay.css";
-import { Link } from "react-router-dom";
 import PurchaseGameCard from "../../components/PurchaseGameCard/PurchaseGameCard";
 import PlayGameCard from "../../components/PlayGameCard/PlayGameCard";
 import DownloadGameCard from "../../components/DownloadGameCard/DownloadGameCard";
@@ -74,6 +73,7 @@ const GamePlay = () => {
         <PurchaseGameCard
           price={gamedata.price}
           setAuthData={setAuthData}
+          authData={authData}
           gameId={gamedata._id}
         />
       );
@@ -82,6 +82,7 @@ const GamePlay = () => {
         <PlayGameCard
           mediaMode={mediaMode}
           setMediaMode={setMediaMode}
+          authData={authData}
           gameId={gamedata._id}
           setAuthData={setAuthData}
         />
@@ -90,6 +91,7 @@ const GamePlay = () => {
       return (
         <DownloadGameCard
           gameId={gamedata._id}
+          authData={authData}
           setAuthData={setAuthData}
           build={gamedata.build}
         />
@@ -266,6 +268,7 @@ const GamePlay = () => {
                   comment={comment}
                   allComments={comments}
                   refresh={fetchComments}
+                  depth={1}
                 />
               ))}
           </div>

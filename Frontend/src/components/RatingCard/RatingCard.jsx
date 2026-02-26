@@ -1,6 +1,8 @@
 import "./RatingCard.css";
 import { useEffect, useState } from "react";
 import API from "../../config/api";
+import { AuthContext } from "../../context/AuthContext";
+import { useContext } from "react";
 
 const RatingRow = ({ stars, count, maxCount }) => {
   const percentage = maxCount > 0 ? (count / maxCount) * 100 : 0;
@@ -36,11 +38,16 @@ const RatingCard = ({
   const [hoveredStar, setHoveredStar] = useState(0);
   const [selectedStar, setSelectedStar] = useState(userRating || 0);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { authData } = useContext(AuthContext);
 
   // Find max count for progress bar scaling
   const maxCount = Math.max(...totalRatings, 0);
 
   const handleRate = async (star) => {
+    if (!authData?.isLoggedIn) {
+      alert("Please login to rate this game.");
+      return;
+    }
     if (isSubmitting) return;
 
     try {

@@ -25,21 +25,24 @@ module.exports = () => {
    * Post comment
    */
   router.post("/comments/:gameId", verifyUser, async (req, res) => {
-    const { content, parent } = req.body;
+  const { content, parent } = req.body;
 
-    const newComment = new Comment({
-      game: req.params.gameId,
-      user: req.user.id,
-      content,
-      parent: parent || null,
-    });
-
-    await newComment.save();
-
-    const populated = await newComment.populate("user", "username profilepic");
-
-    res.status(201).json(populated);
+  const newComment = new Comment({
+    game: req.params.gameId,
+    user: req.user.id,
+    content,
+    parent: parent || null,
   });
+
+  await newComment.save();
+
+  const populated = await newComment.populate(
+    "user",
+    "username profilepic"
+  );
+
+  res.status(201).json(populated);
+});
 
   router.post("/comments/:commentId/like", verifyUser, async (req, res) => {
     const comment = await Comment.findById(req.params.commentId);
