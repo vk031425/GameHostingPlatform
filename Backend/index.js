@@ -28,7 +28,7 @@ const server = http.createServer(app);
 // Middlewares
 app.use(
   cors({
-    origin: "http://localhost:5173", // frontend origin EXACT
+    origin: process.env.Frontend_URL, // frontend origin EXACT
     credentials: true, // allow cookies
   }),
 );
