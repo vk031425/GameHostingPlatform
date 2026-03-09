@@ -23,6 +23,7 @@ module.exports = () => {
   */
 
   router.post("/game-upload/create", verifyuser, async (req, res) => {
+    console.log("Received game creation request with data:", req.body);
     try {
       const {
         title,
@@ -35,9 +36,10 @@ module.exports = () => {
         systemRequirements,
         isPremium,
         price,
+        version,
       } = req.body;
 
-      if (!title || !description || !distributionType) {
+      if (!title || !version || !distributionType) {
         return res.status(400).json({ message: "Missing required fields" });
       }
 
@@ -72,6 +74,7 @@ module.exports = () => {
 
         isPremium,
         price,
+        version,
 
         status: "pending",
       });
@@ -178,9 +181,11 @@ module.exports = () => {
       game.build = {
         fileKey,
         fileSize: fileInfo.ContentLength,
-        version,
         uploadedAt: new Date(),
       };
+
+      game.version = version;
+      game.status = "pending"; 
 
       await game.save();
 

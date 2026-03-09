@@ -16,7 +16,7 @@ const Navbar = () => {
             Games
           </Link>
         </li>
-        <li>
+        {/* <li>
           <Link className="nav-links" to="/games">
             Categories
           </Link>
@@ -25,7 +25,7 @@ const Navbar = () => {
           <Link className="nav-links" to="/games">
             Trending
           </Link>
-        </li>
+        </li> */}
       </ul>
 
       <ul id="right-tabs">

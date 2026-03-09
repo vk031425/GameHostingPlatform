@@ -110,6 +110,7 @@ const DeveloperProfileUpload = () => {
 
   const handlePublish = async () => {
     let gameId = null;
+    console.log("Starting publish process with game data:", gameData);
 
     try {
       setIsPublishing(true);
@@ -127,6 +128,7 @@ const DeveloperProfileUpload = () => {
         systemRequirements: gameData.systemRequirements,
         isPremium: gameData.isPremium,
         price: gameData.price,
+        version: gameData.version,
       });
 
       gameId = createRes.data.gameId;

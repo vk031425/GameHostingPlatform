@@ -2,25 +2,49 @@ import "./Profile.css";
 import { AuthContext } from "../../context/AuthContext";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { CDN_BASE_URL } from "../../utils/constants";
 import ProfileOverview from "../../components/Profile/ProfileOverview/ProfileOverview";
 import ProfileMyGames from "../../components/Profile/ProfileMyGames/ProfileMyGames";
 import ProfileWishList from "../../components/Profile/ProfileWishList/ProfileWishList";
 import ProfileFavorites from "../../components/Profile/ProfileFavorites/ProfileFavorites";
 import ProfileSettings from "../../components/Profile/ProfileSettings/ProfileSettings";
+import API from "../../config/api";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
-  const { authData } = useContext(AuthContext);
+  const { authData, setAuthData } = useContext(AuthContext);
   const [activeTab, setActiveTab] = useState("Overview");
+  const navigate = useNavigate();
+
+  const profilepicUrl = authData
+    ? `${CDN_BASE_URL}/${authData.user.profilepic}`
+    : "/images/fallback-thumbnail.jpg";
 
   const buttonHandler = (e) => {
     setActiveTab(e.currentTarget.value);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await API.post("/user/logout");
+
+      setAuthData({
+        user: null,
+        isLoggedIn: false,
+        loading: false,
+      });
+
+      navigate("/", { replace: true }); // Force homepage
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
   };
 
   return (
     <div className="profile-page-container">
       <div className="profile-page-sidebar">
         <div className="profile-main">
-          <img src={authData.user.profilepic} alt="profilepic" />
+          <img src={profilepicUrl} alt="profilepic" />
           <h1>{authData.user.username}</h1>
           <p>{authData.user.email}</p>
         </div>
@@ -72,14 +96,16 @@ const Profile = () => {
             <i class="fa-solid fa-gear"></i>
             <p>Settings</p>
           </button>
-          <button className="profile-sidebar-btn">
+          <button className="profile-sidebar-btn" onClick={handleLogout}>
             <i class="fa-solid fa-arrow-right-from-bracket"></i>
             <p>Log Out</p>
           </button>
         </div>
       </div>
       <div className="profile-page-right">
-        {activeTab === "Overview" && <ProfileOverview />}
+        {activeTab === "Overview" && (
+          <ProfileOverview setActiveTab={setActiveTab} />
+        )}
         {activeTab === "Mygames" && <ProfileMyGames />}
         {activeTab === "Wishlist" && <ProfileWishList />}
         {activeTab === "Favorites" && <ProfileFavorites />}

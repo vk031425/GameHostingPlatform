@@ -82,7 +82,6 @@ module.exports = () => {
       });
 
       res.json({ order });
-
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Order creation failed" });
@@ -94,11 +93,8 @@ module.exports = () => {
   // =====================================
   router.post("/payment/verify", verifyuser, async (req, res) => {
     try {
-      const {
-        razorpay_order_id,
-        razorpay_payment_id,
-        razorpay_signature,
-      } = req.body;
+      const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+        req.body;
 
       const userId = req.user.id;
 
@@ -138,8 +134,12 @@ module.exports = () => {
         $addToSet: { purchasedGames: purchase.gameId },
       });
 
-      res.json({ success: true });
+      // 6️⃣ Increase game revenue
+      await Game.findByIdAndUpdate(purchase.gameId, {
+        $inc: { revenue: purchase.amount },
+      });
 
+      res.json({ success: true });
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Verification failed" });

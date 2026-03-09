@@ -1,0 +1,127 @@
+.developer-mygames-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    color: white;
+}
+
+.developer-mygames-top h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+/* Empty State */
+
+.developer-mygames-empty {
+    background-color: #0b0b24;
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 40px;
+    text-align: center;
+}
+
+.developer-upload-btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    border: 1px solid white;
+    background-color: #0b0b24;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+/* Game List */
+
+.developer-mygames-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Game Card */
+
+.developer-mygame-card {
+    display: flex;
+    background-color: #0b0b24;
+    border: 1px solid white;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.developer-mygame-thumbnail {
+    width: 220px;
+    height: 150px;
+    object-fit: cover;
+}
+
+.developer-mygame-info {
+    flex: 1;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.developer-mygame-info h2 {
+    font-size: 1.8rem;
+}
+
+/* Status */
+
+.developer-status {
+    width: fit-content;
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-size: 0.9rem;
+    text-transform: capitalize;
+}
+
+.developer-status.approved {
+    background-color: green;
+}
+
+.developer-status.pending {
+    background-color: orange;
+}
+
+.developer-status.rejected {
+    background-color: red;
+}
+
+/* Stats */
+
+.developer-mygame-stats {
+    display: flex;
+    gap: 20px;
+    margin-top: 5px;
+}
+
+.developer-mygame-stats span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Buttons */
+
+.developer-mygame-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.developer-btn {
+    padding: 6px 14px;
+    border: 1px solid white;
+    background-color: #0b0b24;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.delete-btn {
+    border-color: red;
+    color: red;
+}

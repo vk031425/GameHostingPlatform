@@ -55,12 +55,12 @@ module.exports = () => {
     }
   });
 
-  router.post("/games/:id/engagement", verifyUser, async (req, res) => {
+  router.post("/games/:id/play", verifyUser, async (req, res) => {
     try {
       const gameId = req.params.id;
 
       await Game.findByIdAndUpdate(gameId, {
-        $inc: { engagements: 1 },
+        $inc: { plays: 1 },
       });
 
       await User.findByIdAndUpdate(req.user.id, {
@@ -69,6 +69,20 @@ module.exports = () => {
       });
 
       res.json({ message: "Play counted" });
+    } catch (err) {
+      res.status(500).json({ message: "Server error" });
+    }
+  });
+
+  router.post("/games/:id/download", verifyUser, async (req, res) => {
+    try {
+      const gameId = req.params.id;
+
+      await Game.findByIdAndUpdate(gameId, {
+        $inc: { downloads: 1 },
+      });
+
+      res.json({ message: "download counted" });
     } catch (err) {
       res.status(500).json({ message: "Server error" });
     }

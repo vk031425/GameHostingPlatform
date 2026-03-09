@@ -12,10 +12,12 @@ const mongoose = require("mongoose");
 //for routes
 const userRoutes = require("./routes/userRoutes");
 const gameRoutes = require("./routes/gameRoutes");
+const homeRoutes = require("./routes/homeRoutes");
 const gameUploadRoutes = require("./routes/gameUploadRoutes");
 const gamepageRoutes = require("./routes/gamepageRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const commentRoutes = require("./routes/commentRoutes");
+const developerRoutes = require("./routes/developerRoutes");
 
 mongoose.connect(process.env.MONGO_URL);
 
@@ -38,11 +40,13 @@ app.use(
 ); //server static profile pics
 
 app.use("/api", userRoutes()); 
+app.use("/api", homeRoutes());
 app.use("/api", gameRoutes());
 app.use("/api", gameUploadRoutes());
 app.use("/api", gamepageRoutes());
 app.use("/api", paymentRoutes());
 app.use("/api", commentRoutes());
+app.use("/api", developerRoutes());
 app.use("/api", require("./routes/testUpload"));
 
 const PORT = process.env.PORT || 8080;

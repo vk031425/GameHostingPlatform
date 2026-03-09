@@ -1,0 +1,82 @@
+.developer-overview-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px;
+}
+
+/* ===== TOP STATS ===== */
+
+.developer-overview-top {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    background-color: #0b0b24;
+    border-radius: 5px;
+    gap: 10px;
+    padding: 15px 10px;
+}
+
+.developer-overview-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    height: 140px;
+    width: 32%;
+    min-width: 200px;
+    border: 1px solid white;
+    border-radius: 5px;
+    color: white;
+}
+
+.developer-overview-card-top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.developer-overview-card-top i {
+    font-size: 2.2rem;
+    color: white;
+}
+
+.developer-overview-card-top h1 {
+    font-size: 2.5rem;
+    color: white;
+}
+
+.developer-overview-card p {
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+}
+
+/* ===== BOTTOM SECTION ===== */
+
+.developer-overview-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 30px 10px;
+}
+
+.developer-overview-bottom-top h1 {
+    color: white;
+    font-size: 2.5rem;
+}
+
+.developer-overview-recent-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0b0b24;
+    border-radius: 5px;
+    border: 1px solid white;
+    padding: 40px;
+    gap: 25px;
+    color: white;
+    flex-wrap: wrap;
+}

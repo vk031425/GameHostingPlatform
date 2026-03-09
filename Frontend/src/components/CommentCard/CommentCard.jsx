@@ -4,6 +4,7 @@ import { formatDate } from "../../utils/formatDate";
 import "./CommentCard.css";
 import { AuthContext } from "../../context/AuthContext";
 import { useContext } from "react";
+import { CDN_BASE_URL } from "../../utils/constants";
 
 const MAX_DEPTH = 4;
 
@@ -11,6 +12,10 @@ const CommentCard = ({ comment, allComments, refresh, depth = 1 }) => {
   const [showReply, setShowReply] = useState(false);
   const [replyText, setReplyText] = useState("");
   const { authData } = useContext(AuthContext);
+
+  const profilepicUrl = comment
+    ? `${CDN_BASE_URL}/${comment.user.profilepic}`
+    : "/images/fallback-thumbnail.jpg";
 
   const replies = allComments
     .filter((c) => c.parent === comment._id)
@@ -83,7 +88,7 @@ const CommentCard = ({ comment, allComments, refresh, depth = 1 }) => {
     <div className={`comment-wrapper depth-${depth}`}>
       <div className="comment-card">
         <div className="comment-header">
-          <img src={comment.user.profilepic} />
+          <img src={profilepicUrl} />
           <span>@{comment.user.username}</span>
           <span>{formatDate(comment.createdAt)}</span>
         </div>

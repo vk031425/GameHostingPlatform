@@ -2,35 +2,33 @@ import "./DeveloperProfile.css";
 import { AuthContext } from "../../context/AuthContext";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { CDN_BASE_URL } from "../../utils/constants";
+
 import DeveloperProfileUpload from "../../components/DeveloperProfile/DeveloperProfileUpload/DeveloperProfileUpload";
 import DeveloperProfileOverview from "../../components/DeveloperProfile/DeveloperProfileOverview/DeveloperProfileOverview";
+import DeveloperProfileMyGames from "../../components/DeveloperProfile/DeveloperProfileMyGames/DeveloperProfileMyGames";
+import DeveloperProfileEditGame from "../../components/DeveloperProfile/DeveloperProfileEditGame/DeveloperProfileEditGame";
 
 const DeveloperProfile = () => {
   const { authData } = useContext(AuthContext);
-  const [righttab, setrighttab] = useState(<DeveloperProfileOverview />);
 
-  const buttonHandler = (e) => {
-    const val = e.currentTarget.value;
-    if (val === "Overview") {
-      setrighttab(<DeveloperProfileOverview />);
-    } else if (val === "Mygames") {
-      // setrighttab(<ProfileMyGames />);
-    } else if (val === "UploadGame") {
-      setrighttab(<DeveloperProfileUpload/>);
-    } else if (val === "Favorites") {
-      // setrighttab(<ProfileFavorites />);
-    } else if (val === "Comments") {
-      // setrighttab(<ProfileComments />);
-    } else if (val === "Settings") {
-      // setrighttab(<ProfileSettings />);
-    }
+  const [activeTab, setActiveTab] = useState("Overview");
+  const [selectedGameId, setSelectedGameId] = useState(null);
+
+  const profilepicUrl = authData
+    ? `${CDN_BASE_URL}/${authData.user.profilepic}`
+    : "/images/fallback-thumbnail.jpg";
+
+  const openEditGame = (gameId) => {
+    setSelectedGameId(gameId);
+    setActiveTab("EditGame");
   };
 
   return (
     <div className="developer-profile-page-container">
       <div className="developer-profile-page-sidebar">
         <div className="developer-profile-main">
-          <img src={authData.user.profilepic} alt="profilepic" />
+          <img src={profilepicUrl} alt="profilepic" />
           <h1>{authData.user.username}</h1>
           <p>{authData.user.email}</p>
         </div>
@@ -42,42 +40,41 @@ const DeveloperProfile = () => {
         </button>
 
         <div className="developer-profile-sidebar-btn-container">
-          <button onClick={buttonHandler} value="Overview" className="developer-profile-sidebar-btn">
-            <i class="fa-solid fa-magnifying-glass-chart"></i>
-            <p>Overview</p>
+          <button
+            onClick={() => setActiveTab("Overview")}
+            className="developer-profile-sidebar-btn"
+          >
+            <i className="fa-solid fa-magnifying-glass-chart"></i>
+            <p>Dashboard</p>
           </button>
-          <button className="developer-profile-sidebar-btn">
-            <i class="fa-solid fa-gamepad"></i>
+
+          <button
+            onClick={() => setActiveTab("MyGames")}
+            className="developer-profile-sidebar-btn"
+          >
+            <i className="fa-solid fa-gamepad"></i>
             <p>My Games</p>
           </button>
-          <button onClick={buttonHandler} value="UploadGame" className="developer-profile-sidebar-btn">
-            <i class="fa-solid fa-upload"></i>
+
+          <button
+            onClick={() => setActiveTab("UploadGame")}
+            className="developer-profile-sidebar-btn"
+          >
+            <i className="fa-solid fa-upload"></i>
             <p>Upload Game</p>
-          </button>
-          <button className="developer-profile-sidebar-btn">
-            <i class="fa-solid fa-chart-line"></i>
-            <p>Analytics</p>
-          </button>
-          <button className="developer-profile-sidebar-btn">
-            <i class="fa-solid fa-dollar-sign"></i>
-            <p>Earnings</p>
-          </button>
-          <button className="developer-profile-sidebar-btn">
-            <i class="fa-solid fa-comment"></i>
-            <p>Reviews</p>
-          </button>
-          <button className="developer-profile-sidebar-btn">
-            <i class="fa-solid fa-gear"></i>
-            <p>Settings</p>
-          </button>
-          <button className="developer-profile-sidebar-btn">
-            <i class="fa-solid fa-arrow-right-from-bracket"></i>
-            <p>Log Out</p>
           </button>
         </div>
       </div>
+
       <div className="developer-profile-page-right">
-        {righttab}
+        {activeTab === "Overview" && <DeveloperProfileOverview />}
+        {activeTab === "MyGames" && (
+          <DeveloperProfileMyGames onEdit={openEditGame} />
+        )}
+        {activeTab === "UploadGame" && <DeveloperProfileUpload />}
+        {activeTab === "EditGame" && (
+          <DeveloperProfileEditGame gameId={selectedGameId} />
+        )}
       </div>
     </div>
   );

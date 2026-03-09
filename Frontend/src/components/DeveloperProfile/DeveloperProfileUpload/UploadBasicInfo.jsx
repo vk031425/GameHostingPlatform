@@ -1,36 +1,5 @@
 import "./UploadBasicInfo.css";
-
-const categoriesList = [
-  "Action",
-  "Adventure",
-  "RPG",
-  "Strategy",
-  "Simulation",
-  "Puzzle",
-  "Arcade",
-  "Casual",
-  "Sports",
-  "Racing",
-  "Shooter",
-  "Horror",
-  "Survival",
-  "Platformer",
-  "Fighting",
-  "Multiplayer",
-  "Idle",
-  "Card Game",
-  "Educational",
-  "Sandbox",
-  "Open World",
-  "Tower Defense",
-  "Unity",
-  "Unreal Engine",
-  "Visual Novel",
-  "VR",
-  "AR",
-  "2D",
-  "3D",
-];
+import { categoriesList } from "../../../utils/categoriesList";
 
 const UploadBasicInfo = ({ data, setData, nextStep }) => {
   const handleChange = (e) => {

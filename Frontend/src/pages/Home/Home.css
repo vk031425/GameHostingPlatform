@@ -71,7 +71,6 @@
 /* middle section */
 
 .home-middle {
-    height: 100vh;
     background-image: url("/images/home/background3.png");
     background-size: cover;
     background-position: center;

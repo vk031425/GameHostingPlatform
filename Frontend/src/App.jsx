@@ -9,6 +9,7 @@ import Games from "./pages/Games/Games";
 import Footer from "./components/Footer/Footer";
 import Profile from "./pages/Profile/Profile";
 import DeveloperProfile from "./pages/DeveloperProfile/DeveloperProfile";
+import DeveloperProfileEditGame from "./components/DeveloperProfile/DeveloperProfileEditGame/DeveloperProfileEditGame";
 
 const App = () => {
   return (
@@ -35,6 +36,10 @@ const App = () => {
               <DeveloperProfile />
             </ProtectedRoute>
           }
+        />
+        <Route
+          path="/developer/edit/:id"
+          element={<DeveloperProfileEditGame />}
         />
       </Routes>
       <Footer />

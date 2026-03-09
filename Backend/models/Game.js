@@ -18,7 +18,8 @@ const GameSchema = new Schema(
 
     description: {
       type: String,
-      required: true,
+      default: "",
+      maxlength: 5000,
     },
 
     shortDescription: {
@@ -36,7 +37,6 @@ const GameSchema = new Schema(
     // Media
     thumbnailUrl: {
       type: String,
-      // required: true,
     },
 
     screenshots: {
@@ -112,8 +112,6 @@ const GameSchema = new Schema(
     // Statistics
     views: { type: Number, default: 0 },
 
-    engagements: { type: Number, default: 0 },
-
     rating: {
       type: Number,
       default: 0,
@@ -131,6 +129,11 @@ const GameSchema = new Schema(
       },
     ],
 
+    plays: { type: Number, default: 0 },
+    downloads: { type: Number, default: 0 },
+    revenue: { type: Number, default: 0 },
+    favoritesCount: { type: Number, default: 0 },
+
     // Moderation
 
     status: {
@@ -140,6 +143,11 @@ const GameSchema = new Schema(
     },
 
     isFeatured: {
+      type: Boolean,
+      default: false,
+    },
+
+    isTrending: {
       type: Boolean,
       default: false,
     },

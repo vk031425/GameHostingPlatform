@@ -4,18 +4,6 @@ const Game = require("../models/Game");
 module.exports = () => {
   const router = express.Router();
 
-  /*
-  =====================================
-  GET: Feed Games (Lightweight Cards)
-  =====================================
-  Supports:
-  ?category=
-  ?search=
-  ?sort=
-  ?page=
-  ?limit=
-  */
-
   router.get("/games", async (req, res) => {
     try {
       const { category, search, sort, page = 1, limit = 12 } = req.query;

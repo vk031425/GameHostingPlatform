@@ -1,8 +1,26 @@
 import "./Home.css";
 import { Link } from "react-router-dom";
-import FeaturedGameCard from "../../components/FeaturedGameCard/FeaturedGameCard";
+import GameCard from "../../components/GameCard/GameCard";
+import API from "../../config/api";
+import { useEffect, useState } from "react";
 
 const Home = () => {
+  const [featuredGames, setFeaturedGames] = useState([]);
+  const [trendingGames, setTrendingGames] = useState([]);
+
+  useEffect(() => {
+    const fetchHomeData = async () => {
+      try {
+        const res = await API.get("/home");
+        setFeaturedGames(res.data.featuredGames);
+        setTrendingGames(res.data.trendingGames);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchHomeData();
+  }, []);
   return (
     <div className="home-container">
       <section className="home-top">
@@ -53,7 +71,7 @@ const Home = () => {
           />
         </div>
       </section>
-      <hr className="gradient-hr"/>
+      <hr className="gradient-hr" />
       <section className="home-middle">
         <div className="home-middle-top">
           <h1>Featured Games</h1>
@@ -64,31 +82,17 @@ const Home = () => {
           </button>
         </div>
         <div className="featured-games-container">
-          <FeaturedGameCard
-            source="/images/home/FeaturedGames/lulf.jpg"
-            title="Wonder Fighter"
-            gameId = "wonder123"
-          />
-          <FeaturedGameCard
-            source="/images/home/FeaturedGames/game2.jpg"
-            title="Tom Clancy | Ghost Recon"
-            gameId = "ghost543"
-          />
-          <FeaturedGameCard
-            source="/images/home/FeaturedGames/tombraider.jpg"
-            title="The Rise Of Tomb Raider"
-            gameId = "tombraid432"
-          />
-          <FeaturedGameCard
-            source="/images/home/FeaturedGames/lulf.jpg"
-            title="Wonder Fighter"
-            gameId = "wonder123"
-          />
-          <FeaturedGameCard
-            source="/images/home/FeaturedGames/lulf.jpg"
-            title="Wonder Fighter"
-            gameId = "wonder123"
-          />
+          {featuredGames.map((game) => (
+            <GameCard
+              key={game._id}
+              slug={game.slug}
+              source={game.thumbnailUrl}
+              title={game.title}
+              rating={game.rating}
+              views={game.views}
+              isPremium={game.isPremium}
+            />
+          ))}
         </div>
         <div className="home-middle-bottom">
           <h1>Trending Games</h1>
@@ -99,32 +103,20 @@ const Home = () => {
           </button>
         </div>
         <div className="featured-games-container">
-          <FeaturedGameCard
-            source="/images/home/FeaturedGames/lulf.jpg"
-            title="Wonder Fighter"
-            cardtag="NEW"
-          />
-          <FeaturedGameCard
-            source="/images/home/FeaturedGames/game2.jpg"
-            title="Tom Clancy | Ghost Recon"
-            cardtag="HOT"
-          />
-          <FeaturedGameCard
-            source="/images/home/FeaturedGames/tombraider.jpg"
-            title="The Rise Of Tomb Raider"
-            cardtag="HOT"
-          />
-          <FeaturedGameCard
-            source="/images/home/FeaturedGames/lulf.jpg"
-            title="Wonder Fighter"
-          />
-          <FeaturedGameCard
-            source="/images/home/FeaturedGames/lulf.jpg"
-            title="Wonder Fighter"
-          />
+          {trendingGames.map((game) => (
+            <GameCard
+              key={game._id}
+              slug={game.slug}
+              source={game.thumbnailUrl}
+              title={game.title}
+              rating={game.rating}
+              views={game.views}
+              isPremium={game.isPremium}
+            />
+          ))}
         </div>
       </section>
-
+       <hr className="gradient-hr" />
       <section className="home-bottom">
         <div className="home-bottom-container">
           <h1>Are you a game developer?</h1>

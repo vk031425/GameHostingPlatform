@@ -22,12 +22,14 @@
     align-items: center;
     gap: 10px;
     padding: 20px 20px;
+    overflow: hidden;
 }
 
 .profile-main img {
     border-radius: 50%;
     height: 120px;
     width: 120px;
+    object-fit: cover;
 }
 
 .profile-main h1 {

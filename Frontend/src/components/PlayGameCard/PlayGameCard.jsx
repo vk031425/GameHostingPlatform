@@ -26,7 +26,7 @@ const PlayGameCard = ({
 
   const handlePlay = async () => {
     if (mediaMode === "trailer") {
-      await API.post(`/games/${gameId}/engagement`);
+      await API.post(`/games/${gameId}/play`);
       setMediaMode("game");
     } else {
       setMediaMode("trailer");
