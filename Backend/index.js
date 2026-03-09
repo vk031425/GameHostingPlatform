@@ -28,9 +28,9 @@ const server = http.createServer(app);
 // Middlewares
 app.use(
   cors({
-    origin: process.env.Frontend_URL, // frontend origin EXACT
-    credentials: true, // allow cookies
-  }),
+    origin: [process.env.Frontend_URL],
+    credentials: true,
+  })
 );
 app.use(express.json());
 app.use(cookieParser());
