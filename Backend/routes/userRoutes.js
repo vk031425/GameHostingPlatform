@@ -103,8 +103,8 @@ module.exports = () => {
       // Store in HTTP-only cookie
       res.cookie("token", token, {
         httpOnly: true,
-        secure: false, // true in production (HTTPS)
-        sameSite: "lax",
+        secure: true, // true in production (HTTPS)
+        sameSite: "None",
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
@@ -133,7 +133,11 @@ module.exports = () => {
 
   // LOGOUT
   router.post("/user/logout", (req, res) => {
-    res.clearCookie("token");
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+    });
     res.json({ message: "Logged out successfully" });
   });
 

@@ -26,6 +26,7 @@ const app = express();
 const server = http.createServer(app);
 
 // Middlewares
+app.use(cookieParser());
 app.use(
   cors({
     origin: [process.env.Frontend_URL],
@@ -33,7 +34,6 @@ app.use(
   })
 );
 app.use(express.json());
-app.use(cookieParser());
 app.use(
   "/uploads/profile_pics",
   express.static(path.join(__dirname, "uploads/profile_pics")),
