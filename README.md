@@ -233,7 +233,7 @@ Game Added To Library
 
 ---
 
-## ☁️ Cloud Storage Features
+## Cloud Storage Features
 
 - Cloudflare R2 Object Storage
 - Secure Pre-Signed Upload URLs
