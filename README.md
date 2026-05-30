@@ -482,7 +482,7 @@ The platform was tested using a combination of manual and end-to-end testing app
 
 ---
 
-# 📊 Current Platform Capabilities
+# Current Platform Capabilities
 
 - 8 Open Source Games Hosted
 - Cloud-Based File Storage
