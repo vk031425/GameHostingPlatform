@@ -6,6 +6,12 @@ The platform provides secure game hosting, developer dashboards, payment process
 
 ---
 
+## Live Demo
+
+URL : https://game-hosting-platform-coral.vercel.app
+
+---
+
 # Features
 
 ## User Features
